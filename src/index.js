@@ -9,6 +9,9 @@ import '../assets/application.scss';
 import gon from 'gon';
 // import cookies from 'js-cookie';
 // import io from 'socket.io-client';
+import React from 'react';
+import { render } from 'react-dom';
+import App from './components/App.jsx';
 
 if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
@@ -16,3 +19,5 @@ if (process.env.NODE_ENV !== 'production') {
 
 console.log('it works!');
 console.log('gon', gon);
+
+render(<App data={gon} />, document.getElementById('chat'));
