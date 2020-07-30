@@ -5,10 +5,10 @@ import 'regenerator-runtime/runtime';
 
 import '../assets/application.scss';
 
-// import faker from 'faker';
+import faker from 'faker';
 import gon from 'gon';
-// import cookies from 'js-cookie';
-// import io from 'socket.io-client';
+import Cookies from 'js-cookie';
+import io from 'socket.io-client';
 import React from 'react';
 import { render } from 'react-dom';
 import App from './components/App.jsx';
@@ -20,4 +20,23 @@ if (process.env.NODE_ENV !== 'production') {
 console.log('it works!');
 console.log('gon', gon);
 
-render(<App data={gon} />, document.getElementById('chat'));
+let nickname = Cookies.get('nickname');
+if (!nickname) {
+  nickname = faker.internet.userName();
+  Cookies.set('nickname', nickname);
+}
+
+const nicknameContext = React.createContext(nickname);
+
+/* const socket = io('http://localhost');
+socket.on('news', (data) => {
+  console.log(data);
+  socket.emit('my other event', { my: 'data' });
+}); */
+
+render(
+  <nicknameContext.Provider value = {nickname}>
+    <App data={gon} />
+  </nicknameContext.Provider>,
+  document.getElementById('chat')
+  );
