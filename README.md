@@ -11,8 +11,9 @@ https://slack-frontend-lvl4.herokuapp.com/
 $ make install
 ```
 
-### Run
+## Run
 
 ```sh
 $ make start
+# open http://localhost:5000
 ```

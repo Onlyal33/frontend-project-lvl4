@@ -16,7 +16,7 @@ import App from './components/App.jsx';
 if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
 }
-
+//const container = document.querySelector('#chat');
 console.log('it works!');
 console.log('gon', gon);
 

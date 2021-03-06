@@ -1,23 +1,18 @@
 // @ts-check
 
-import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-
 import path from 'path';
 import Pug from 'pug';
 import socket from 'socket.io';
 import fastify from 'fastify';
 import pointOfView from 'point-of-view';
 import fastifyStatic from 'fastify-static';
-// import _ from 'lodash';
-import addRoutes from './routes';
+import addRoutes from './routes.js';
 
 const isProduction = process.env.NODE_ENV === 'production';
-const appPath = path.join(__dirname, '..');
-const isDevelopment = !isProduction;
 
 const setUpViews = (app) => {
-  const domain = isDevelopment ? 'http://localhost:8080' : '';
+  const domain = isProduction ? '' : 'http://localhost:8080';
   app.register(pointOfView, {
     engine: {
       pug: Pug,
@@ -30,16 +25,19 @@ const setUpViews = (app) => {
 };
 
 const setUpStaticAssets = (app) => {
+  const pathPublic = isProduction
+    ? path.join(__dirname, 'public')
+    : path.join(__dirname, '..', 'dist', 'public');
   app.register(fastifyStatic, {
-    root: path.join(appPath, 'dist/public'),
-    prefix: '/assets',
+    root: pathPublic,
+    prefix: '/assets/',
   });
 };
 
-export default (options) => {
-  const app = fastify();
+export default (options = {}) => {
+  const app = fastify({ logger: true, prettyPrint: true });
 
-  setUpViews(app, options);
+  setUpViews(app);
   setUpStaticAssets(app);
 
   const io = socket(app.server);

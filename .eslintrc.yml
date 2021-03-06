@@ -8,12 +8,13 @@ env:
 parser: babel-eslint
 
 extends:
-  - 'airbnb-base'
+  - airbnb
   - "plugin:jest/recommended"
-  - "plugin:react/recommended"
+  - "plugin:functional/external-recommended"
+  - "plugin:functional/recommended"
 
 plugins:
-  - import
+  - functional
 
 rules:
   no-console: 0
@@ -21,5 +22,19 @@ rules:
   react/prop-types: 0
 
 settings:
+    import/resolver:
+    - node
+    - webpack
     react:
       version: detect
+
+rules:
+  import/extensions: 0
+  react/prop-types: 0
+  no-console: 0
+  functional/no-conditional-statement: 0
+  functional/no-expression-statement: 0
+  functional/immutable-data: 0
+  functional/functional-parameters: 0
+  functional/no-try-statement: 0
+  functional/no-throw-statement: 0
