@@ -1,28 +1,26 @@
 import React from 'react';
-import classNames from 'classnames';
+import { ListGroup, Button } from 'react-bootstrap';
+import { shallowEqual, useSelector } from 'react-redux';
+// need to add redux dispatch here
 
-const renderChannel = ({ name, id }, currentChannelId) => {
-  const classes = {
-    'list-group-item list-group-item-action': true,
-    active: id === currentChannelId,
-  };
+const renderChannel = ({ name, id }, isActive) => (
+  <Button key={id} block variant={isActive ? 'primary' : 'light'}>
+    {name}
+  </Button>
+);
 
-  return (
-    <button key={id} type="button" className={classNames(classes)}>
-      {name}
-    </button>
-  );
-};
+const Channels = () => {
+  const channels = useSelector((state) => Object.values(state.channels.byId), shallowEqual);
+  const currentChannelId = useSelector((state) => state.channels.currentChannelId);
 
-const Channels = ({ channels, currentChannelId }) => {
   if (channels.length === 0) {
     return null;
   }
 
   return (
-    <div className="list-group col-2">
-      {channels.map((c) => renderChannel(c, currentChannelId))}
-    </div>
+    <ListGroup>
+      {channels.map((channel) => renderChannel(channel, channel.id === currentChannelId))}
+    </ListGroup>
   );
 };
 

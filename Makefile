@@ -7,12 +7,13 @@ start-backend:
 	npx nodemon --exec npx babel-node server/bin/slack.js
 
 start-frontend:
-	npx webpack serve
+	npx webpack-dev-server
 
 install-deps:
 	npm ci
 
 build:
+	rm -rf dist
 	npm run build
 
 test:
