@@ -1,13 +1,14 @@
 import React from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
+import { ListGroup } from 'react-bootstrap';
 
 const renderMessage = ({ id, nickname, message }) => (
-  <li key={id} className="list-group-item">
+  <span key={id} className="text-wrap text-break">
     <b>{nickname}</b>
     :
     {' '}
     {message}
-  </li>
+  </span>
 );
 
 const Messages = () => {
@@ -24,9 +25,9 @@ const Messages = () => {
   }
 
   return (
-    <ul className="list-group">
+    <ListGroup>
       {filteredMessages.map(renderMessage)}
-    </ul>
+    </ListGroup>
   );
 };
 

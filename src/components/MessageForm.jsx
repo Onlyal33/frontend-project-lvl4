@@ -1,23 +1,23 @@
 import React, { useContext } from 'react';
 import { useDispatch } from 'react-redux';
-import {
-  Formik, Form, Field,
-} from 'formik';
+import { Formik, Form } from 'formik';
 import {
   Button, Col, Row, FormControl, InputGroup,
 } from 'react-bootstrap';
 import { sendMessageThunk } from '../features/messagesSlice';
 import NicknameContext from './nickname';
 
-const MessageForm = () => {
+const MessageForm = (props) => {
   const dispatch = useDispatch();
   const nickname = useContext(NicknameContext);
+  const { inputRef } = props;
 
   const handleSubmit = ({ message }, actions) => dispatch(sendMessageThunk({ message, nickname }))
     .then((action) => {
       actions.setSubmitting(false);
-      if (action.type === 'messages/sendMessage/fulfilled') {
+      if (action.type.includes('fulfilled')) {
         actions.resetForm();
+        inputRef.current.focus();
       } else {
         const error = action.payload;
         actions.setFieldError('message', error);
@@ -41,7 +41,7 @@ const MessageForm = () => {
           <Row>
             <Col>
               <InputGroup>
-                <Field
+                <FormControl
                   type="text"
                   id="message"
                   name="message"
@@ -51,7 +51,7 @@ const MessageForm = () => {
                   value={values.message}
                   isInvalid={!!errors.message}
                   disabled={isSubmitting}
-                  component={FormControl}
+                  ref={inputRef}
                 />
                 <FormControl.Feedback type="invalid">
                   {errors.message}

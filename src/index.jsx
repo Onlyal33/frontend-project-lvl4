@@ -11,6 +11,7 @@ import { Provider } from 'react-redux';
 import App from './components/App.jsx';
 import store from './store';
 import { addMessage } from './features/messagesSlice';
+import { addChannel } from './features/channelsSlice';
 
 const socket = io();
 
@@ -19,14 +20,7 @@ socket.on('newMessage', (data) => {
 });
 
 socket.on('newChannel', (data) => {
-  console.log('newChannel', data);
-  /*
-  data: {
-    type: 'channels',
-    id: channel.id,
-    attributes: channel,
-  }
-  */
+  store.dispatch(addChannel(data));
 });
 
 socket.on('removeChannel', (data) => {
