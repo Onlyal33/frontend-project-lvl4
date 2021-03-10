@@ -11,6 +11,10 @@ const channelsSlice = createSlice({
   name: 'channels',
   initialState,
   reducers: {
+    changeCurrentChannel(state, action) {
+      const { id } = action.payload;
+      state.currentChannelId = id;
+    },
     removeChannel(state, action) {
       const idToRemove = action.payload.id;
       const filtered = Object.entries(state.byId)
@@ -21,6 +25,6 @@ const channelsSlice = createSlice({
   },
 });
 
-export const { removeChannel } = channelsSlice.actions;
+export const { changeCurrentChannel, removeChannel } = channelsSlice.actions;
 
 export default channelsSlice.reducer;
