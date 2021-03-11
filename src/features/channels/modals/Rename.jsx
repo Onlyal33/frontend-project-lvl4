@@ -5,7 +5,7 @@ import {
 } from 'react-bootstrap';
 import { Formik, Form } from 'formik';
 
-import { patchChannelThunk } from '../../features/channelsSlice';
+import { patchChannelThunk } from '../channelsSlice';
 
 const Rename = ({ onHide, modalInfo: { item } }) => {
   const dispatch = useDispatch();

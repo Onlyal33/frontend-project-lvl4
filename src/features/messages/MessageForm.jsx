@@ -4,8 +4,8 @@ import { Formik, Form } from 'formik';
 import {
   Button, Col, Row, FormControl, InputGroup,
 } from 'react-bootstrap';
-import { sendMessageThunk } from '../features/messagesSlice';
-import NicknameContext from './nickname';
+import { sendMessageThunk } from './messagesSlice';
+import NicknameContext from '../../common/nickname';
 
 const MessageForm = (props) => {
   const dispatch = useDispatch();

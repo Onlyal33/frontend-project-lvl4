@@ -1,8 +1,8 @@
 import React, { useRef, useEffect } from 'react';
-import Channels from './Channels';
-import Messages from './Messages';
-import MessageForm from './MessageForm';
-import NicknameContext, { getNickname } from './nickname';
+import Channels from '../features/channels/Channels';
+import Messages from '../features/messages/Messages';
+import MessageForm from '../features/messages/MessageForm';
+import NicknameContext, { getNickname } from '../common/nickname';
 
 const App = () => {
   const messageInputRef = useRef(null);

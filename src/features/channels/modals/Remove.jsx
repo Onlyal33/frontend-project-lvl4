@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Form, Modal, Button } from 'react-bootstrap';
-import { deleteChannelThunk } from '../../features/channelsSlice';
+import { deleteChannelThunk } from '../channelsSlice';
 
 const Remove = ({ onHide, modalInfo: { item } }) => {
   const { name, id } = item;

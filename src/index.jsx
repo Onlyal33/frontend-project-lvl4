@@ -8,10 +8,10 @@ import { io } from 'socket.io-client';
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
-import App from './components/App.jsx';
-import store from './store';
-import { addMessage } from './features/messagesSlice';
-import { addChannel, removeChannel, renameChannel } from './features/channelsSlice';
+import App from './app/App.jsx';
+import store from './app/store';
+import { addMessage } from './features/messages/messagesSlice';
+import { addChannel, removeChannel, renameChannel } from './features/channels/channelsSlice';
 
 const socket = io();
 

@@ -2,8 +2,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import gon from 'gon';
-import routes from '../routes';
-import { removeChannel } from './channelsSlice';
+import routes from '../../common/routes';
+import { removeChannel } from '../channels/channelsSlice';
 
 const { messages } = gon;
 const byId = Object.fromEntries(messages.map((item) => [item.id, item]));

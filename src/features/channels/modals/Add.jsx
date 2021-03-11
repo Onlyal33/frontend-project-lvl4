@@ -5,7 +5,7 @@ import {
 } from 'react-bootstrap';
 import { Formik, Form } from 'formik';
 
-import { newChannelThunk } from '../../features/channelsSlice';
+import { newChannelThunk } from '../channelsSlice';
 
 const Add = ({ onHide }) => {
   const dispatch = useDispatch();
