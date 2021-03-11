@@ -23,16 +23,22 @@ const channelsSlice = createSlice({
       state.allIds.push(id);
     },
     removeChannel(state, action) {
-      const idToRemove = action.payload.id;
+      const idToRemove = action.payload.data.id;
       const filtered = Object.entries(state.byId)
-        .filter(([{ id }]) => id !== idToRemove);
+        .filter(([, { id }]) => id !== idToRemove);
       state.byId = Object.fromEntries(filtered);
       state.allIds = filtered.map(([id]) => id);
+    },
+    renameChannel(state, action) {
+      const { id, attributes } = action.payload.data;
+      state.byId[id] = attributes;
     },
   },
 });
 
-export const { changeCurrentChannel, addChannel, removeChannel } = channelsSlice.actions;
+export const {
+  changeCurrentChannel, addChannel, removeChannel, renameChannel,
+} = channelsSlice.actions;
 
 export const newChannelThunk = createAsyncThunk(
   'channels/newChannel',
@@ -40,6 +46,32 @@ export const newChannelThunk = createAsyncThunk(
     const path = routes.channelsPath();
     try {
       const response = await axios.post(path, { data: { attributes } });
+      return response.data;
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e.message);
+    }
+  },
+);
+
+export const deleteChannelThunk = createAsyncThunk(
+  'channels/deleteChannel',
+  async (attributes, thunkAPI) => {
+    const path = routes.channelPath(attributes.id);
+    try {
+      const response = await axios.delete(path);
+      return response.data;
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e.message);
+    }
+  },
+);
+
+export const patchChannelThunk = createAsyncThunk(
+  'channels/patchChannel',
+  async (attributes, thunkAPI) => {
+    const path = routes.channelPath(attributes.id);
+    try {
+      const response = await axios.patch(path, { data: { attributes } });
       return response.data;
     } catch (e) {
       return thunkAPI.rejectWithValue(e.message);

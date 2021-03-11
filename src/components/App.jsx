@@ -5,7 +5,7 @@ import MessageForm from './MessageForm';
 import NicknameContext, { getNickname } from './nickname';
 
 const App = () => {
-  const messageInputRef = useRef();
+  const messageInputRef = useRef(null);
   useEffect(() => {
     messageInputRef.current.focus();
   });

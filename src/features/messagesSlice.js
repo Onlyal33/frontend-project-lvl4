@@ -23,9 +23,9 @@ const messagesSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(removeChannel, (state, action) => {
-        const idToRemove = action.payload.id;
+        const idToRemove = action.payload.data.id;
         const filtered = Object.entries(state.byId)
-          .filter(([{ channelId }]) => channelId !== idToRemove);
+          .filter(([, { channelId }]) => channelId !== idToRemove);
         state.byId = Object.fromEntries(filtered);
         state.allIds = filtered.map(([id]) => id);
       })
