@@ -2,8 +2,6 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import '../assets/application.scss';
-// @ts-ignore
-import gon from 'gon';
 import { io } from 'socket.io-client';
 import React from 'react';
 import { render } from 'react-dom';
@@ -42,6 +40,3 @@ render(
   </Provider>,
   container,
 );
-
-console.log('it works!?');
-console.log('gon', gon);
