@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ButtonGroup, Button, Dropdown } from 'react-bootstrap';
 import { shallowEqual, useSelector, useDispatch } from 'react-redux';
-import { changeCurrentChannel } from './currentChannelSlice';
+import { changeCurrentChannel } from './currentChannelSlice.js';
 import getModal from './modals';
 
 const renderModal = ({ modalInfo, hideModal }) => {

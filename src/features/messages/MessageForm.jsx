@@ -6,7 +6,7 @@ import {
 } from 'react-bootstrap';
 import axios from 'axios';
 import routes from '../../common/routes.js';
-import NicknameContext from '../../common/nickname';
+import NicknameContext from '../../common/nickname.js';
 
 const MessageForm = () => {
   const currentChannelId = useSelector((state) => state.currentChannelId);
