@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import { ListGroup } from 'react-bootstrap';
 
@@ -20,14 +20,25 @@ const selectMessagesByChannelId = (state) => {
 const Messages = () => {
   const filteredMessages = useSelector(selectMessagesByChannelId, shallowEqual);
 
+  const bottomRef = useRef();
+
+  useEffect(() => {
+    if (filteredMessages.length > 0) {
+      bottomRef.current.scrollIntoView();
+    }
+  }, [filteredMessages]);
+
   if (filteredMessages.length === 0) {
     return null;
   }
 
   return (
-    <ListGroup>
-      {filteredMessages.map(renderMessage)}
-    </ListGroup>
+    <>
+      <ListGroup>
+        {filteredMessages.map(renderMessage)}
+      </ListGroup>
+      <div ref={bottomRef} />
+    </>
   );
 };
 
