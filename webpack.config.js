@@ -7,7 +7,7 @@ const mode = process.env.NODE_ENV || 'development';
 module.exports = {
   mode,
   entry: [
-    `${__dirname}/src/index.jsx`,
+    `${__dirname}/src/index.js`,
   ],
   externals: {
     gon: 'gon',
@@ -47,6 +47,3 @@ module.exports = {
     ],
   },
 };
-
-//  output: {
-//   path: `${__dirname}/dist/public`,
