@@ -10,7 +10,8 @@ import { configureStore } from '@reduxjs/toolkit';
 import App from './App.jsx';
 import messagesReducer, { addMessage } from '../features/messages/messagesSlice.js';
 import channelsReducer, { addChannel, removeChannel, renameChannel } from '../features/channels/channelsSlice.js';
-import currentChannelReducer from '../features/channels/currentChannelSlice.js';
+import currentChannelReducer, { changeCurrentChannel } from '../features/channels/currentChannelSlice.js';
+import defaultChannelReducer from '../features/channels/defaultChannelSlice.js';
 
 export default (initData) => {
   const store = configureStore({
@@ -18,30 +19,35 @@ export default (initData) => {
       channels: channelsReducer,
       messages: messagesReducer,
       currentChannelId: currentChannelReducer,
+      defaultChannelId: defaultChannelReducer,
     },
     preloadedState: {
       channels: initData.channels,
       messages: initData.messages,
       currentChannelId: initData.currentChannelId,
+      defaultChannelId: initData.currentChannelId,
     },
   });
 
   const socket = io();
 
-  socket.on('newMessage', (data) => {
-    store.dispatch(addMessage(data));
+  socket.on('newMessage', (payload) => {
+    store.dispatch(addMessage(payload));
   });
 
-  socket.on('newChannel', (data) => {
-    store.dispatch(addChannel(data));
+  socket.on('newChannel', (payload) => {
+    store.dispatch(addChannel(payload));
   });
 
-  socket.on('removeChannel', (data) => {
-    store.dispatch(removeChannel(data));
+  socket.on('removeChannel', (payload) => {
+    store.dispatch(removeChannel(payload));
+    if (store.getState().currentChannelId === payload.data.id) {
+      store.dispatch(changeCurrentChannel({ data: { id: store.getState().defaultChannelId } }));
+    }
   });
 
-  socket.on('renameChannel', (data) => {
-    store.dispatch(renameChannel(data));
+  socket.on('renameChannel', (payload) => {
+    store.dispatch(renameChannel(payload));
   });
 
   if (process.env.NODE_ENV !== 'production') {

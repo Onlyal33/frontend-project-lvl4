@@ -1,18 +1,21 @@
 import React, { useRef, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   Modal, Button, FormControl, InputGroup,
 } from 'react-bootstrap';
 import { Formik, Form } from 'formik';
 import axios from 'axios';
 import routes from '../../../common/routes.js';
+import { changeCurrentChannel } from '../currentChannelSlice.js';
 
-const generateOnSubmit = ({ onHide }) => async ({ name }, actions) => {
+const generateOnSubmit = ({ onHide, dispatch }) => async ({ name }, actions) => {
   const path = routes.channelsPath();
   try {
-    await axios.post(path, { data: { attributes: { name } } });
+    const { data } = await axios.post(path, { data: { attributes: { name } } });
     actions.setSubmitting(false);
     actions.resetForm();
     onHide();
+    dispatch(changeCurrentChannel(data));
   } catch (e) {
     actions.setSubmitting(false);
     actions.setFieldError('name', e.message);
@@ -25,6 +28,8 @@ const Add = ({ onHide }) => {
     modalRef.current.focus();
   }, []);
 
+  const dispatch = useDispatch();
+
   return (
     <Modal show onHide={onHide}>
       <Modal.Header closeButton>
@@ -34,7 +39,7 @@ const Add = ({ onHide }) => {
         initialValues={{
           name: '',
         }}
-        onSubmit={generateOnSubmit({ onHide })}
+        onSubmit={generateOnSubmit({ onHide, dispatch })}
       >
         {({
           handleChange,

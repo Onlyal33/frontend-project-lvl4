@@ -5,7 +5,7 @@ const currentChannelSlice = createSlice({
   initialState: null,
   reducers: {
     changeCurrentChannel(state, action) {
-      return action.payload.id;
+      return action.payload.data.id;
     },
   },
 });

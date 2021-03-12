@@ -52,7 +52,7 @@ const Channels = () => {
 
   const dispatch = useDispatch();
   const handleChangeChannel = (id) => () => {
-    dispatch(changeCurrentChannel({ id }));
+    dispatch(changeCurrentChannel({ data: { id } }));
   };
 
   const [modalInfo, setModalInfo] = useState({ type: null, item: null });
