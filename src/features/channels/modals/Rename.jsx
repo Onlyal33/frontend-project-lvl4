@@ -1,26 +1,25 @@
 import React, { useRef, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import {
   Modal, Button, FormControl, InputGroup,
 } from 'react-bootstrap';
 import { Formik, Form } from 'formik';
+import axios from 'axios';
+import routes from '../../../common/routes.js';
 
-import { patchChannelThunk } from '../channelsSlice';
+const generateOnSubmit = ({ onHide, item }) => async ({ name }, actions) => {
+  const path = routes.channelPath(item.id);
+  try {
+    await axios.patch(path, { data: { attributes: { ...item, name } } });
+    actions.setSubmitting(false);
+    actions.resetForm();
+    onHide();
+  } catch (e) {
+    actions.setSubmitting(false);
+    actions.setFieldError('name', e.message);
+  }
+};
 
 const Rename = ({ onHide, modalInfo: { item } }) => {
-  const dispatch = useDispatch();
-  const handleSubmit = ({ name }, actions) => dispatch(patchChannelThunk({ ...item, name }))
-    .then((action) => {
-      actions.setSubmitting(false);
-      if (action.type.includes('fulfilled')) {
-        actions.resetForm();
-        onHide();
-      } else {
-        const error = action.payload;
-        actions.setFieldError('name', error);
-      }
-    });
-
   const modalRef = useRef();
   useEffect(() => {
     modalRef.current.select();
@@ -35,7 +34,7 @@ const Rename = ({ onHide, modalInfo: { item } }) => {
         initialValues={{
           name: item.name,
         }}
-        onSubmit={handleSubmit}
+        onSubmit={generateOnSubmit({ onHide, item })}
       >
         {({
           handleChange,

@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Formik, Form } from 'formik';
 import {
   Button, Col, Row, FormControl, InputGroup,
 } from 'react-bootstrap';
-import { sendMessageThunk } from './messagesSlice';
+import axios from 'axios';
+import routes from '../../common/routes.js';
 import NicknameContext from '../../common/nickname';
 
 const MessageForm = () => {
@@ -15,19 +16,20 @@ const MessageForm = () => {
     inputRef.current.focus();
   }, [currentChannelId]);
 
-  const dispatch = useDispatch();
   const nickname = useContext(NicknameContext);
-  const handleSubmit = ({ message }, actions) => dispatch(sendMessageThunk({ message, nickname }))
-    .then((action) => {
+
+  const handleSubmit = async ({ message }, actions) => {
+    const path = routes.channelMessagesPath(currentChannelId);
+    try {
+      await axios.post(path, { data: { attributes: { message, nickname } } });
+      actions.resetForm();
+    } catch (e) {
+      actions.setFieldError('message', e.message);
+    } finally {
       actions.setSubmitting(false);
-      if (action.type.includes('fulfilled')) {
-        actions.resetForm();
-      } else {
-        const error = action.payload;
-        actions.setFieldError('message', error);
-      }
       inputRef.current.focus();
-    });
+    }
+  };
 
   return (
     <Formik
@@ -50,7 +52,7 @@ const MessageForm = () => {
                   type="text"
                   id="message"
                   name="message"
-                  aria-label="message"
+                  aria-label="new message"
                   onChange={handleChange}
                   placeholder="Write your message here"
                   value={values.message}

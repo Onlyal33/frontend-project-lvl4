@@ -1,28 +1,29 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { Form, Modal, Button } from 'react-bootstrap';
-import { deleteChannelThunk } from '../channelsSlice';
+import axios from 'axios';
+import routes from '../../../common/routes.js';
+
+const generateOnSubmit = ({
+  setError, setIsSubmitting, onHide, item,
+}) => async (event) => {
+  event.preventDefault();
+  const path = routes.channelPath(item.id);
+  setError(null);
+  setIsSubmitting(true);
+  try {
+    await axios.delete(path);
+    setIsSubmitting(false);
+    onHide();
+  } catch (e) {
+    setIsSubmitting(false);
+    setError(e.message);
+  }
+};
 
 const Remove = ({ onHide, modalInfo: { item } }) => {
-  const { name, id } = item;
+  const { name } = item;
   const [error, setError] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const dispatch = useDispatch();
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setError(null);
-    setIsSubmitting(true);
-    dispatch(deleteChannelThunk({ id }))
-      .then((action) => {
-        setIsSubmitting(false);
-        if (action.type.includes('fulfilled')) {
-          onHide();
-        } else {
-          setError(action.payload);
-        }
-      });
-  };
 
   return (
     <Modal show onHide={onHide}>
@@ -44,7 +45,12 @@ const Remove = ({ onHide, modalInfo: { item } }) => {
         <Button variant="secondary" onClick={onHide}>
           Cancel
         </Button>
-        <Form inline onSubmit={handleSubmit}>
+        <Form
+          inline
+          onSubmit={generateOnSubmit({
+            setError, setIsSubmitting, onHide, item,
+          })}
+        >
           <Form.Control
             as={Button}
             variant={!error ? 'danger' : 'outline-danger'}

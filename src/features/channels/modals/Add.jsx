@@ -1,26 +1,25 @@
 import React, { useRef, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import {
   Modal, Button, FormControl, InputGroup,
 } from 'react-bootstrap';
 import { Formik, Form } from 'formik';
+import axios from 'axios';
+import routes from '../../../common/routes.js';
 
-import { newChannelThunk } from '../channelsSlice';
+const generateOnSubmit = ({ onHide }) => async ({ name }, actions) => {
+  const path = routes.channelsPath();
+  try {
+    await axios.post(path, { data: { attributes: { name } } });
+    actions.setSubmitting(false);
+    actions.resetForm();
+    onHide();
+  } catch (e) {
+    actions.setSubmitting(false);
+    actions.setFieldError('name', e.message);
+  }
+};
 
 const Add = ({ onHide }) => {
-  const dispatch = useDispatch();
-  const handleSubmit = ({ name }, actions) => dispatch(newChannelThunk({ name }))
-    .then((action) => {
-      actions.setSubmitting(false);
-      if (action.type.includes('fulfilled')) {
-        actions.resetForm();
-        onHide();
-      } else {
-        const error = action.payload;
-        actions.setFieldError('name', error);
-      }
-    });
-
   const modalRef = useRef();
   useEffect(() => {
     modalRef.current.focus();
@@ -35,7 +34,7 @@ const Add = ({ onHide }) => {
         initialValues={{
           name: '',
         }}
-        onSubmit={handleSubmit}
+        onSubmit={generateOnSubmit({ onHide })}
       >
         {({
           handleChange,
