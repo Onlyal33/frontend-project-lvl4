@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, shallowEqual } from 'react-redux';
 import { Formik, Form } from 'formik';
 import {
   Button, Col, Row, FormControl, InputGroup,
@@ -8,13 +8,24 @@ import axios from 'axios';
 import routes from '../../common/routes.js';
 import NicknameContext from '../../common/nickname.js';
 
+const validate = (values) => {
+  const errors = {};
+
+  if (values.message.trim().length === 0) {
+    errors.message = 'Please enter some text here';
+  }
+
+  return errors;
+};
+
 const MessageForm = () => {
   const currentChannelId = useSelector((state) => state.currentChannelId);
+  const channels = useSelector((state) => state.channels.map(({ name }) => name), shallowEqual);
   const inputRef = useRef();
 
   useEffect(() => {
     inputRef.current.focus();
-  }, [currentChannelId]);
+  }, [channels, currentChannelId]);
 
   const nickname = useContext(NicknameContext);
 
@@ -37,6 +48,7 @@ const MessageForm = () => {
         message: '',
       }}
       onSubmit={handleSubmit}
+      validate={validate}
     >
       {({
         handleChange,

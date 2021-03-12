@@ -23,9 +23,7 @@ const Messages = () => {
   const bottomRef = useRef();
 
   useEffect(() => {
-    if (filteredMessages.length > 0) {
-      bottomRef.current.scrollIntoView();
-    }
+    bottomRef.current?.scrollIntoView();
   }, [filteredMessages]);
 
   if (filteredMessages.length === 0) {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Form, Modal, Button } from 'react-bootstrap';
 import axios from 'axios';
 import routes from '../../../common/routes.js';
@@ -12,7 +12,6 @@ const generateOnSubmit = ({
   setIsSubmitting(true);
   try {
     await axios.delete(path);
-    setIsSubmitting(false);
     onHide();
   } catch (e) {
     setIsSubmitting(false);
@@ -22,8 +21,15 @@ const generateOnSubmit = ({
 
 const Remove = ({ onHide, modalInfo: { item } }) => {
   const { name } = item;
+
+  const modalRef = useRef();
+
   const [error, setError] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    modalRef.current.focus();
+  }, []);
 
   return (
     <Modal show onHide={onHide}>
@@ -57,6 +63,7 @@ const Remove = ({ onHide, modalInfo: { item } }) => {
             type="submit"
             isInvalid={!!error}
             disabled={isSubmitting}
+            ref={modalRef}
           >
             Submit
           </Form.Control>

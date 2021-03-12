@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Modal, Button, FormControl, InputGroup,
 } from 'react-bootstrap';
@@ -11,9 +11,7 @@ import { changeCurrentChannel } from '../currentChannelSlice.js';
 const generateOnSubmit = ({ onHide, dispatch }) => async ({ name }, actions) => {
   const path = routes.channelsPath();
   try {
-    const { data } = await axios.post(path, { data: { attributes: { name } } });
-    actions.setSubmitting(false);
-    actions.resetForm();
+    const { data } = await axios.post(path, { data: { attributes: { name: name.trim() } } });
     onHide();
     dispatch(changeCurrentChannel(data));
   } catch (e) {
@@ -22,12 +20,27 @@ const generateOnSubmit = ({ onHide, dispatch }) => async ({ name }, actions) => 
   }
 };
 
+const getChannelNames = (state) => state.channels.map(({ name }) => name);
+
+const validate = (channelNames) => (values) => {
+  const errors = {};
+  const trimmed = values.name.trim();
+  if (trimmed.length === 0) {
+    errors.name = 'Please enter some text here';
+  } else if (channelNames.includes(trimmed)) {
+    errors.name = `Channel ${trimmed} already exists`;
+  }
+
+  return errors;
+};
+
 const Add = ({ onHide }) => {
   const modalRef = useRef();
+  const channelNames = useSelector(getChannelNames);
+
   useEffect(() => {
     modalRef.current.focus();
   }, []);
-
   const dispatch = useDispatch();
 
   return (
@@ -39,6 +52,7 @@ const Add = ({ onHide }) => {
         initialValues={{
           name: '',
         }}
+        validate={validate(channelNames)}
         onSubmit={generateOnSubmit({ onHide, dispatch })}
       >
         {({

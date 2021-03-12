@@ -1,4 +1,5 @@
 import React, { useRef, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import {
   Modal, Button, FormControl, InputGroup,
 } from 'react-bootstrap';
@@ -9,9 +10,7 @@ import routes from '../../../common/routes.js';
 const generateOnSubmit = ({ onHide, item }) => async ({ name }, actions) => {
   const path = routes.channelPath(item.id);
   try {
-    await axios.patch(path, { data: { attributes: { ...item, name } } });
-    actions.setSubmitting(false);
-    actions.resetForm();
+    await axios.patch(path, { data: { attributes: { ...item, name: name.trim() } } });
     onHide();
   } catch (e) {
     actions.setSubmitting(false);
@@ -19,11 +18,29 @@ const generateOnSubmit = ({ onHide, item }) => async ({ name }, actions) => {
   }
 };
 
+const getFiletredChannelNames = (idToRename) => (state) => state.channels
+  .filter(({ id }) => id !== idToRename)
+  .map(({ name }) => name);
+
+const validate = (channelNames) => (values) => {
+  const errors = {};
+  const trimmed = values.name.trim();
+  if (trimmed.length === 0) {
+    errors.name = 'Please enter some text here';
+  } else if (channelNames.includes(trimmed)) {
+    errors.name = `Channel ${trimmed} already exists`;
+  }
+
+  return errors;
+};
+
 const Rename = ({ onHide, modalInfo: { item } }) => {
   const modalRef = useRef();
   useEffect(() => {
     modalRef.current.select();
   }, []);
+
+  const filteredchannelNames = useSelector(getFiletredChannelNames(item.id));
 
   return (
     <Modal show onHide={onHide}>
@@ -34,6 +51,7 @@ const Rename = ({ onHide, modalInfo: { item } }) => {
         initialValues={{
           name: item.name,
         }}
+        validate={validate(filteredchannelNames)}
         onSubmit={generateOnSubmit({ onHide, item })}
       >
         {({
