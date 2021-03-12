@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useContext, useEffect, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Form } from 'formik';
 import {
   Button, Col, Row, FormControl, InputGroup,
@@ -7,21 +7,26 @@ import {
 import { sendMessageThunk } from './messagesSlice';
 import NicknameContext from '../../common/nickname';
 
-const MessageForm = (props) => {
+const MessageForm = () => {
+  const currentChannelId = useSelector((state) => state.currentChannelId);
+  const inputRef = useRef();
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, [currentChannelId]);
+
   const dispatch = useDispatch();
   const nickname = useContext(NicknameContext);
-  const { inputRef } = props;
-
   const handleSubmit = ({ message }, actions) => dispatch(sendMessageThunk({ message, nickname }))
     .then((action) => {
       actions.setSubmitting(false);
       if (action.type.includes('fulfilled')) {
         actions.resetForm();
-        inputRef.current.focus();
       } else {
         const error = action.payload;
         actions.setFieldError('message', error);
       }
+      inputRef.current.focus();
     });
 
   return (

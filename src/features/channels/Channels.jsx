@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { ButtonGroup, Button, Dropdown } from 'react-bootstrap';
 import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 import { changeCurrentChannel } from './currentChannelSlice';
@@ -46,7 +46,7 @@ const renderChannel = ({
   );
 };
 
-const Channels = ({ messageInputRef }) => {
+const Channels = () => {
   const channels = useSelector((state) => state.channels, shallowEqual);
   const currentChannelId = useSelector((state) => state.currentChannelId);
 
@@ -54,10 +54,6 @@ const Channels = ({ messageInputRef }) => {
   const handleChangeChannel = (id) => () => {
     dispatch(changeCurrentChannel({ id }));
   };
-
-  useEffect(() => {
-    messageInputRef.current.focus();
-  }, [currentChannelId]);
 
   const [modalInfo, setModalInfo] = useState({ type: null, item: null });
   const hideModal = () => setModalInfo({ type: null, item: null });
