@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ButtonGroup, Button, Dropdown } from 'react-bootstrap';
 import { shallowEqual, useSelector, useDispatch } from 'react-redux';
-import { changeCurrentChannel } from './channelsSlice';
+import { changeCurrentChannel } from './currentChannelSlice';
 import getModal from './modals';
 
 const renderModal = ({ modalInfo, hideModal }) => {
@@ -47,8 +47,8 @@ const renderChannel = ({
 };
 
 const Channels = ({ messageInputRef }) => {
-  const channels = useSelector((state) => Object.values(state.channels.byId), shallowEqual);
-  const currentChannelId = useSelector((state) => state.channels.currentChannelId);
+  const channels = useSelector((state) => state.channels, shallowEqual);
+  const currentChannelId = useSelector((state) => state.currentChannelId);
 
   const dispatch = useDispatch();
   const handleChangeChannel = (id) => () => {

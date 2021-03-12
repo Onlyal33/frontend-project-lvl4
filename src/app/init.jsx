@@ -1,17 +1,31 @@
 // @ts-check
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-import '../assets/application.scss';
+import '../../assets/application.scss';
 import { io } from 'socket.io-client';
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
-import App from './app/App.jsx';
-import store from './app/store.js';
-import { addMessage } from './features/messages/messagesSlice.js';
-import { addChannel, removeChannel, renameChannel } from './features/channels/channelsSlice.js';
+import { configureStore } from '@reduxjs/toolkit';
+import App from './App.jsx';
+import messagesReducer, { addMessage } from '../features/messages/messagesSlice.js';
+import channelsReducer, { addChannel, removeChannel, renameChannel } from '../features/channels/channelsSlice.js';
+import currentChannelReducer from '../features/channels/currentChannelSlice.js';
 
-export default () => {
+export default (initData) => {
+  const store = configureStore({
+    reducer: {
+      channels: channelsReducer,
+      messages: messagesReducer,
+      currentChannelId: currentChannelReducer,
+    },
+    preloadedState: {
+      channels: initData.channels,
+      messages: initData.messages,
+      currentChannelId: initData.currentChannelId,
+    },
+  });
+
   const socket = io();
 
   socket.on('newMessage', (data) => {
@@ -35,6 +49,7 @@ export default () => {
   }
 
   const container = document.querySelector('#chat');
+
   render(
     <Provider store={store}>
       <App />

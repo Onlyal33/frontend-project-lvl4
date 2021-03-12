@@ -13,8 +13,8 @@ const renderMessage = ({ id, nickname, message }) => (
 
 const Messages = () => {
   const selectMessagesByChannelId = (state) => {
-    const { currentChannelId } = state.channels;
-    return Object.values(state.messages.byId)
+    const { currentChannelId } = state;
+    return state.messages
       .filter(({ channelId }) => channelId === currentChannelId);
   };
 

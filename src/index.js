@@ -1,3 +1,6 @@
-import run from './init.jsx';
+import gon from 'gon';
+import run from './app/init.jsx';
 
-run();
+console.log(gon);
+
+run(gon);

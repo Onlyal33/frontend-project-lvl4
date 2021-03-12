@@ -1,43 +1,29 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import gon from 'gon';
-import routes from '../../common/routes';
-
-const { currentChannelId, channels } = gon;
-const byId = Object.fromEntries(channels.map((channel) => [channel.id, channel]));
-const allIds = channels.map((channel) => channel.id);
-const initialState = { byId, allIds, currentChannelId };
+import routes from '../../common/routes.js';
 
 const channelsSlice = createSlice({
   name: 'channels',
-  initialState,
+  initialState: [],
   reducers: {
-    changeCurrentChannel(state, action) {
-      const { id } = action.payload;
-      state.currentChannelId = id;
-    },
     addChannel(state, action) {
-      const { id, attributes } = action.payload.data;
-      state.byId[id] = attributes;
-      state.allIds.push(id);
+      const { attributes } = action.payload.data;
+      state.push(attributes);
     },
     removeChannel(state, action) {
       const idToRemove = action.payload.data.id;
-      const filtered = Object.entries(state.byId)
-        .filter(([, { id }]) => id !== idToRemove);
-      state.byId = Object.fromEntries(filtered);
-      state.allIds = filtered.map(([id]) => id);
+      return state.filter(({ id }) => id !== idToRemove);
     },
     renameChannel(state, action) {
-      const { id, attributes } = action.payload.data;
-      state.byId[id] = attributes;
+      const channel = state.find(({ id }) => id === action.payload.data.id);
+      channel.name = action.payload.data.attributes.name;
     },
   },
 });
 
 export const {
-  changeCurrentChannel, addChannel, removeChannel, renameChannel,
+  addChannel, removeChannel, renameChannel,
 } = channelsSlice.actions;
 
 export const newChannelThunk = createAsyncThunk(
