@@ -8,7 +8,7 @@ export const getNickname = () => {
     return nickname;
   }
   const newNickname = faker.internet.userName();
-  Cookies.set(newNickname);
+  Cookies.set('nickname', newNickname);
   return newNickname;
 };
 
