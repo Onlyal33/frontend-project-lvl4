@@ -22,8 +22,8 @@ const renderChannel = ({
   const { id } = channel;
   const variant = id === currentChannelId ? 'primary' : 'light';
   const channelButton = (
-    <Button block variant={variant} onClick={handleChangeChannel(id)}>
-      <span className="text-wrap text-break">{channel.name}</span>
+    <Button block style={{ minWidth: 0 }} variant={variant} onClick={handleChangeChannel(id)}>
+      <div style={{ textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>{channel.name}</div>
     </Button>
   );
 
