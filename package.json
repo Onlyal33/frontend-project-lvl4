@@ -2,9 +2,6 @@
   "name": "@hexlet/code",
   "version": "0.0.1",
   "description": "",
-  "bin": {
-    "slack": "dist/bin/slack.js"
-  },
   "main": "src/init.jsx",
   "engines": {
     "node": ">= 14"
