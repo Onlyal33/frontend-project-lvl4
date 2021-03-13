@@ -1,5 +1,5 @@
 import gon from 'gon';
-import run from './app/init.jsx';
+import run from './app/initialize.jsx';
 
 console.log(gon);
 
