@@ -1,5 +1,4 @@
 // @ts-check
-import '../../assets/application.scss';
 import { io } from 'socket.io-client';
 import React from 'react';
 import { render } from 'react-dom';
