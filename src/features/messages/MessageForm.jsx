@@ -7,16 +7,7 @@ import {
 import axios from 'axios';
 import routes from '../../common/routes.js';
 import NicknameContext from '../../common/nickname.js';
-
-const validate = (values) => {
-  const errors = {};
-
-  if (values.message.trim().length === 0) {
-    errors.message = 'Please enter some text here';
-  }
-
-  return errors;
-};
+import getValidationSchema from '../../common/validation.js';
 
 const MessageForm = () => {
   const currentChannelId = useSelector((state) => state.channelsInfo.currentChannelId);
@@ -33,7 +24,7 @@ const MessageForm = () => {
   const handleSubmit = async ({ message }, actions) => {
     const path = routes.channelMessagesPath(currentChannelId);
     try {
-      await axios.post(path, { data: { attributes: { message, nickname } } });
+      await axios.post(path, { data: { attributes: { message: message.trim(), nickname } } });
       actions.resetForm();
     } catch (e) {
       actions.setFieldError('message', e.message);
@@ -49,7 +40,7 @@ const MessageForm = () => {
         message: '',
       }}
       onSubmit={handleSubmit}
-      validate={validate}
+      validationSchema={getValidationSchema('message')()}
     >
       {({
         handleChange,

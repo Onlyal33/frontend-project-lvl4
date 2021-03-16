@@ -6,6 +6,7 @@ import {
 import { Formik, Form } from 'formik';
 import axios from 'axios';
 import routes from '../../../common/routes.js';
+import getValidationSchema from '../../../common/validation.js';
 
 const generateOnSubmit = ({ onHide, item }) => async ({ name }, actions) => {
   const path = routes.channelPath(item.id);
@@ -22,25 +23,13 @@ const getFiletredChannelNames = (idToRename) => (state) => state.channelsInfo.ch
   .filter(({ id }) => id !== idToRename)
   .map(({ name }) => name);
 
-const validate = (channelNames) => (values) => {
-  const errors = {};
-  const trimmed = values.name.trim();
-  if (trimmed.length === 0) {
-    errors.name = 'Please enter some text here';
-  } else if (channelNames.includes(trimmed)) {
-    errors.name = `Channel ${trimmed} already exists`;
-  }
-
-  return errors;
-};
-
 const Rename = ({ onHide, modalInfo: { item } }) => {
   const modalRef = useRef();
   useEffect(() => {
     modalRef.current.select();
   }, []);
 
-  const filteredchannelNames = useSelector(getFiletredChannelNames(item.id));
+  const filteredChannelNames = useSelector(getFiletredChannelNames(item.id));
 
   return (
     <Modal show onHide={onHide}>
@@ -51,7 +40,7 @@ const Rename = ({ onHide, modalInfo: { item } }) => {
         initialValues={{
           name: item.name,
         }}
-        validate={validate(filteredchannelNames)}
+        validationSchema={getValidationSchema('channel')(filteredChannelNames)}
         onSubmit={generateOnSubmit({ onHide, item })}
       >
         {({

@@ -7,6 +7,7 @@ import { Formik, Form } from 'formik';
 import axios from 'axios';
 import routes from '../../../common/routes.js';
 import { changeCurrentChannel } from '../channelsSlice.js';
+import getValidationSchema from '../../../common/validation.js';
 
 const generateOnSubmit = ({ onHide, dispatch }) => async ({ name }, actions) => {
   const path = routes.channelsPath();
@@ -21,18 +22,6 @@ const generateOnSubmit = ({ onHide, dispatch }) => async ({ name }, actions) => 
 };
 
 const getChannelNames = (state) => state.channelsInfo.channels.map(({ name }) => name);
-
-const validate = (channelNames) => (values) => {
-  const errors = {};
-  const trimmed = values.name.trim();
-  if (trimmed.length === 0) {
-    errors.name = 'Please enter some text here';
-  } else if (channelNames.includes(trimmed)) {
-    errors.name = `Channel ${trimmed} already exists`;
-  }
-
-  return errors;
-};
 
 const Add = ({ onHide }) => {
   const modalRef = useRef();
@@ -52,7 +41,7 @@ const Add = ({ onHide }) => {
         initialValues={{
           name: '',
         }}
-        validate={validate(channelNames)}
+        validationSchema={getValidationSchema('channel')(channelNames)}
         onSubmit={generateOnSubmit({ onHide, dispatch })}
       >
         {({
