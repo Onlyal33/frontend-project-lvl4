@@ -23,7 +23,7 @@ const renderChannel = ({
   const variant = id === currentChannelId ? 'primary' : 'light';
   const channelButton = (
     <Button block style={{ minWidth: 0 }} variant={variant} onClick={handleChangeChannel(id)}>
-      <div style={{ textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>{channel.name}</div>
+      <div align="justify" style={{ textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>{channel.name}</div>
     </Button>
   );
 
