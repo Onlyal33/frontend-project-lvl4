@@ -1,4 +1,3 @@
-// @ts-check
 import { io } from 'socket.io-client';
 import React from 'react';
 import { render } from 'react-dom';
@@ -6,25 +5,26 @@ import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import App from './App.jsx';
 import messagesReducer, { addMessage } from '../features/messages/messagesSlice.js';
-import channelsReducer, { addChannel, removeChannel, renameChannel } from '../features/channels/channelsSlice.js';
-import currentChannelReducer, { changeCurrentChannel } from '../features/channels/currentChannelSlice.js';
-import defaultChannelReducer from '../features/channels/defaultChannelSlice.js';
+import channelsReducer, {
+  addChannel, removeChannel, renameChannel,
+} from '../features/channels/channelsSlice.js';
 
 export default (initData) => {
   const store = configureStore({
     reducer: {
-      channels: channelsReducer,
+      channelsInfo: channelsReducer,
       messages: messagesReducer,
-      currentChannelId: currentChannelReducer,
-      defaultChannelId: defaultChannelReducer,
     },
     preloadedState: {
-      channels: initData.channels,
+      channelsInfo: {
+        channels: initData.channels,
+        currentChannelId: initData.currentChannelId,
+      },
       messages: initData.messages,
-      currentChannelId: initData.currentChannelId,
-      defaultChannelId: initData.currentChannelId,
     },
   });
+
+  const defaultChannelId = initData.currentChannelId;
 
   const socket = io();
 
@@ -37,10 +37,7 @@ export default (initData) => {
   });
 
   socket.on('removeChannel', (payload) => {
-    store.dispatch(removeChannel(payload));
-    if (store.getState().currentChannelId === payload.data.id) {
-      store.dispatch(changeCurrentChannel({ data: { id: store.getState().defaultChannelId } }));
-    }
+    store.dispatch(removeChannel({ ...payload, data: { ...payload.data, defaultChannelId } }));
   });
 
   socket.on('renameChannel', (payload) => {

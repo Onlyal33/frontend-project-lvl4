@@ -19,8 +19,9 @@ const validate = (values) => {
 };
 
 const MessageForm = () => {
-  const currentChannelId = useSelector((state) => state.currentChannelId);
-  const channels = useSelector((state) => state.channels.map(({ name }) => name), shallowEqual);
+  const currentChannelId = useSelector((state) => state.channelsInfo.currentChannelId);
+  const channels = useSelector((state) => state.channelsInfo.channels
+    .map(({ name }) => name), shallowEqual);
   const inputRef = useRef();
 
   useEffect(() => {

@@ -6,7 +6,7 @@ import {
 import { Formik, Form } from 'formik';
 import axios from 'axios';
 import routes from '../../../common/routes.js';
-import { changeCurrentChannel } from '../currentChannelSlice.js';
+import { changeCurrentChannel } from '../channelsSlice.js';
 
 const generateOnSubmit = ({ onHide, dispatch }) => async ({ name }, actions) => {
   const path = routes.channelsPath();
@@ -20,7 +20,7 @@ const generateOnSubmit = ({ onHide, dispatch }) => async ({ name }, actions) => 
   }
 };
 
-const getChannelNames = (state) => state.channels.map(({ name }) => name);
+const getChannelNames = (state) => state.channelsInfo.channels.map(({ name }) => name);
 
 const validate = (channelNames) => (values) => {
   const errors = {};

@@ -12,7 +12,7 @@ const renderMessage = ({ id, nickname, message }) => (
 );
 
 const selectMessagesByChannelId = (state) => {
-  const { currentChannelId } = state;
+  const { currentChannelId } = state.channelsInfo;
   return state.messages
     .filter(({ channelId }) => channelId === currentChannelId);
 };

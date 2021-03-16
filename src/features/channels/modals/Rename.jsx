@@ -18,7 +18,7 @@ const generateOnSubmit = ({ onHide, item }) => async ({ name }, actions) => {
   }
 };
 
-const getFiletredChannelNames = (idToRename) => (state) => state.channels
+const getFiletredChannelNames = (idToRename) => (state) => state.channelsInfo.channels
   .filter(({ id }) => id !== idToRename)
   .map(({ name }) => name);
 
