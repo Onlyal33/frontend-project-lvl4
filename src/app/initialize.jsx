@@ -24,8 +24,6 @@ export default (initData) => {
     },
   });
 
-  const defaultChannelId = initData.currentChannelId;
-
   const socket = io();
 
   socket.on('newMessage', (payload) => {
@@ -37,7 +35,7 @@ export default (initData) => {
   });
 
   socket.on('removeChannel', (payload) => {
-    store.dispatch(removeChannel({ ...payload, data: { ...payload.data, defaultChannelId } }));
+    store.dispatch(removeChannel(payload));
   });
 
   socket.on('renameChannel', (payload) => {
