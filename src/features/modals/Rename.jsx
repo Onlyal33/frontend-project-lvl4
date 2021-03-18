@@ -1,48 +1,47 @@
 import React, { useRef, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {
   Modal, Button, FormControl, InputGroup,
 } from 'react-bootstrap';
 import { Formik, Form } from 'formik';
 import axios from 'axios';
-import routes from '../../../common/routes.js';
-import { changeCurrentChannel } from '../channelsSlice.js';
-import getValidationSchema from '../../../common/validation.js';
+import routes from '../../common/routes.js';
+import getValidationSchema from '../../common/validation.js';
 
-const generateOnSubmit = ({ onHide, dispatch }) => async ({ name }, actions) => {
-  const path = routes.channelsPath();
+const generateOnSubmit = ({ onHide, item }) => async ({ name }, actions) => {
+  const path = routes.channelPath(item.id);
   try {
-    const { data } = await axios.post(path, { data: { attributes: { name: name.trim() } } });
+    await axios.patch(path, { data: { attributes: { ...item, name: name.trim() } } });
     onHide();
-    dispatch(changeCurrentChannel(data));
   } catch (e) {
     actions.setSubmitting(false);
     actions.setFieldError('name', e.message);
   }
 };
 
-const getChannelNames = (state) => state.channelsInfo.channels.map(({ name }) => name);
+const getFiletredChannelNames = (idToRename) => (state) => state.channelsInfo.channels
+  .filter(({ id }) => id !== idToRename)
+  .map(({ name }) => name);
 
-const Add = ({ onHide }) => {
+const Rename = ({ onHide, modalInfo: { item } }) => {
   const modalRef = useRef();
-  const channelNames = useSelector(getChannelNames);
-
   useEffect(() => {
-    modalRef.current.focus();
+    modalRef.current.select();
   }, []);
-  const dispatch = useDispatch();
+
+  const filteredChannelNames = useSelector(getFiletredChannelNames(item.id));
 
   return (
     <Modal show onHide={onHide}>
       <Modal.Header closeButton>
-        <Modal.Title>Add Channel</Modal.Title>
+        <Modal.Title>Rename Channel</Modal.Title>
       </Modal.Header>
       <Formik
         initialValues={{
-          name: '',
+          name: item.name,
         }}
-        validationSchema={getValidationSchema('channel')(channelNames)}
-        onSubmit={generateOnSubmit({ onHide, dispatch })}
+        validationSchema={getValidationSchema('channel')(filteredChannelNames)}
+        onSubmit={generateOnSubmit({ onHide, item })}
       >
         {({
           handleChange,
@@ -57,8 +56,8 @@ const Add = ({ onHide }) => {
                 type="text"
                 id="name"
                 name="name"
-                required
                 aria-label="name"
+                required
                 onChange={handleChange}
                 value={values.name}
                 isInvalid={!!errors.name}
@@ -83,4 +82,4 @@ const Add = ({ onHide }) => {
   );
 };
 
-export default Add;
+export default Rename;

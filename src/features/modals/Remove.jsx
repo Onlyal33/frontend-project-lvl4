@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Form, Modal, Button } from 'react-bootstrap';
 import axios from 'axios';
-import routes from '../../../common/routes.js';
+import routes from '../../common/routes.js';
 
 const generateOnSubmit = ({
   setError, setIsSubmitting, onHide, item,

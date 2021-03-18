@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ButtonGroup, Button, Dropdown } from 'react-bootstrap';
 import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 import { changeCurrentChannel } from './channelsSlice.js';
-import getModal from './modals';
+import getModal from '../modals';
+import { openModal, closeModal } from '../modals/modalsSlice.js';
 
 const renderModal = ({ modalInfo, hideModal }) => {
   if (!modalInfo.type) {
@@ -49,15 +50,15 @@ const renderChannel = ({
 const Channels = () => {
   const channels = useSelector((state) => state.channelsInfo.channels, shallowEqual);
   const currentChannelId = useSelector((state) => state.channelsInfo.currentChannelId);
+  const modalInfo = useSelector((state) => state.modalInfo);
 
   const dispatch = useDispatch();
   const handleChangeChannel = (id) => () => {
     dispatch(changeCurrentChannel({ data: { id } }));
   };
 
-  const [modalInfo, setModalInfo] = useState({ type: null, item: null });
-  const hideModal = () => setModalInfo({ type: null, item: null });
-  const showModal = (type, item = null) => setModalInfo({ type, item });
+  const hideModal = () => dispatch(closeModal());
+  const showModal = (type, item = null) => dispatch(openModal({ type, item }));
 
   return (
     <>

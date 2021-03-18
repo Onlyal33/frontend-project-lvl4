@@ -8,12 +8,14 @@ import messagesReducer, { addMessage } from '../features/messages/messagesSlice.
 import channelsReducer, {
   addChannel, removeChannel, renameChannel,
 } from '../features/channels/channelsSlice.js';
+import modalsReducer from '../features/modals/modalsSlice.js';
 
 export default (initData) => {
   const store = configureStore({
     reducer: {
       channelsInfo: channelsReducer,
       messages: messagesReducer,
+      modalInfo: modalsReducer,
     },
     preloadedState: {
       channelsInfo: {

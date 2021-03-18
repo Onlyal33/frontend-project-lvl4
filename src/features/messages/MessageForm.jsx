@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef } from 'react';
-import { useSelector, shallowEqual } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Formik, Form } from 'formik';
 import {
   Button, Col, Row, FormControl, InputGroup,
@@ -11,13 +11,14 @@ import getValidationSchema from '../../common/validation.js';
 
 const MessageForm = () => {
   const currentChannelId = useSelector((state) => state.channelsInfo.currentChannelId);
-  const channels = useSelector((state) => state.channelsInfo.channels
-    .map(({ name }) => name), shallowEqual);
+  const isModalOpen = useSelector((state) => state.modalInfo.isOpen);
   const inputRef = useRef();
 
   useEffect(() => {
-    inputRef.current.focus();
-  }, [channels, currentChannelId]);
+    if (!isModalOpen) {
+      inputRef.current.focus();
+    }
+  }, [currentChannelId, isModalOpen]);
 
   const nickname = useContext(NicknameContext);
 
