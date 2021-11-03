@@ -5,6 +5,8 @@ import getApp from '../index.js';
 const port = process.env.PORT || 5000;
 const address = '0.0.0.0';
 
-getApp().listen(port, address, () => {
-  console.log(`Server has been started on ${port}`);
+getApp({ port }).then((app) => {
+  app.listen(port, address, () => {
+    console.log(`Server has been started on ${port}`);
+  });
 });
