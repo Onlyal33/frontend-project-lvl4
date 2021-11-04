@@ -1,9 +1,15 @@
-import 'core-js/stable';
-import 'regenerator-runtime/runtime';
+import 'core-js/stable/index.js';
+import 'regenerator-runtime/runtime.js';
+
 import '../assets/application.scss';
-import gon from 'gon';
+
+// import gon from 'gon';
 import run from './app/initialize.jsx';
 
-console.log(gon);
+if (process.env.NODE_ENV !== 'production') {
+  localStorage.debug = 'chat:*';
+}
 
-run(gon);
+// console.log(gon);
+run({ channels: [], messages: [], currentChannelId: 0});
+//run(gon);

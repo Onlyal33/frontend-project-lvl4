@@ -1,14 +1,15 @@
 // @ts-check
 
+const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const mode = process.env.NODE_ENV || 'development';
 
 module.exports = {
   mode,
-  entry: [
+  /* entry: [
     `${__dirname}/src/index.js`,
-  ],
+  ], */
   externals: {
     gon: 'gon',
   },
@@ -16,14 +17,15 @@ module.exports = {
     extensions: ['.js', '.jsx'],
   },
   output: {
-    path: `${__dirname}/dist/public`,
+    path: path.join(__dirname, 'dist', 'public'),
     publicPath: '/assets/',
   },
   devServer: {
-    host: 'localhost',
-    port: 8080,
-    publicPath: '/assets/',
     compress: true,
+    port: 8080,
+    host: '0.0.0.0',
+    publicPath: '/assets/',
+    historyApiFallback: true,
   },
   plugins: [
     new MiniCssExtractPlugin(),

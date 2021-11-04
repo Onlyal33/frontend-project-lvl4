@@ -44,10 +44,6 @@ export default (initData) => {
     store.dispatch(renameChannel(payload));
   });
 
-  if (process.env.NODE_ENV !== 'production') {
-    localStorage.debug = 'chat:*';
-  }
-
   const container = document.querySelector('#chat');
 
   render(
