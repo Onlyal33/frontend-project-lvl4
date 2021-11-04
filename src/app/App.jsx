@@ -1,7 +1,7 @@
 import React from 'react';
-import Channels from '../features/channels/Channels';
-import Messages from '../features/messages/Messages';
-import MessageForm from '../features/messages/MessageForm';
+import Channels from '../features/channels/Channels.jsx';
+import Messages from '../features/messages/Messages.jsx';
+import MessageForm from '../features/messages/MessageForm.jsx';
 import NicknameContext, { getNickname } from '../common/nickname';
 
 const App = () => (

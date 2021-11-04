@@ -1,23 +1,24 @@
 ---
 
-env:
-  node: true
-  browser: true
-  jest: true
-
-parser: babel-eslint
-
-extends:
-  - airbnb
-  - "plugin:jest/recommended"
-  - "plugin:functional/external-recommended"
-  - "plugin:functional/recommended"
+root: true
 
 plugins:
   - functional
 
+extends:
+  - airbnb
+  - "plugin:functional/external-recommended"
+  - "plugin:functional/recommended"
+
+parser: babel-eslint
+
+env:
+  browser: true
+  node: true
+  jest: true
+
 settings:
-    import/resolver:
+  import/resolver:
     - node
     - webpack
 

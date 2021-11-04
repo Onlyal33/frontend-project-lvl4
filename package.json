@@ -28,6 +28,7 @@
     "classnames": "^2.2.6",
     "core-js": "^3.19.1",
     "debug": "^4.3.1",
+    "eslint-import-resolver-webpack": "^0.13.2",
     "faker": "^5.1.0",
     "fastify": "^3.22.1",
     "fastify-formbody": "^5.1.0",

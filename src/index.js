@@ -11,5 +11,5 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 // console.log(gon);
-run({ channels: [], messages: [], currentChannelId: 0});
-//run(gon);
+run({ channels: [], messages: [], currentChannelId: 0 });
+// run(gon);
