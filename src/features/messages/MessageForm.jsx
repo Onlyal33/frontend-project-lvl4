@@ -6,7 +6,7 @@ import {
 } from 'react-bootstrap';
 import axios from 'axios';
 import routes from '../../common/routes.js';
-import NicknameContext from '../../common/nickname.js';
+import AuthContext from '../../common/AuthContext.js';
 import getValidationSchema from '../../common/validation.js';
 
 const MessageForm = () => {
@@ -20,7 +20,8 @@ const MessageForm = () => {
     }
   }, [currentChannelId, isModalOpen]);
 
-  const nickname = useContext(NicknameContext);
+  const nickname = useContext(AuthContext);
+  // TODO rework nickname-related issues
 
   const handleSubmit = async ({ message }, actions) => {
     const path = routes.channelMessagesPath(currentChannelId);
