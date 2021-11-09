@@ -1,23 +1,31 @@
-import React, { useRef, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { Form, Formik } from 'formik';
+import React, { useEffect, useRef, useContext } from 'react';
 import {
-  Modal, Button, FormControl, InputGroup,
+  Button, FormControl, InputGroup, Modal,
 } from 'react-bootstrap';
-import { Formik, Form } from 'formik';
-import axios from 'axios';
-import routes from '../../common/routes.js';
-import { changeCurrentChannel } from '../channels/channelsSlice.js';
+import { useDispatch, useSelector } from 'react-redux';
 import getValidationSchema from '../../common/validation.js';
+import { changeCurrentChannel } from '../channels/channelsSlice.js';
+import SocketContext from '../../contexts/SocketContext.js';
 
-const generateOnSubmit = ({ onHide, dispatch }) => async ({ name }, actions) => {
-  const path = routes.channelsPath();
-  try {
-    const { data } = await axios.post(path, { data: { attributes: { name: name.trim() } } });
-    onHide();
-    dispatch(changeCurrentChannel(data));
-  } catch (e) {
+const generateOnSubmit = ({ onHide, dispatch, socket }) => ({ name }, actions) => {
+  if (socket.connected) {
+    socket.emit('newChannel',
+      {
+        name: name.trim(),
+      },
+      (res) => {
+        if (res.status === 'ok') {
+          dispatch(changeCurrentChannel(res.data));
+          onHide();
+        } else {
+          actions.setSubmitting(false);
+          actions.setFieldError('message', res.status);
+        }
+      });
+  } else {
     actions.setSubmitting(false);
-    actions.setFieldError('name', e.message);
+    actions.setFieldError('message', 'No network');
   }
 };
 
@@ -26,6 +34,7 @@ const getChannelNames = (state) => state.channelsInfo.channels.map(({ name }) =>
 const Add = ({ onHide }) => {
   const modalRef = useRef();
   const channelNames = useSelector(getChannelNames);
+  const socket = useContext(SocketContext);
 
   useEffect(() => {
     modalRef.current.focus();
@@ -42,7 +51,7 @@ const Add = ({ onHide }) => {
           name: '',
         }}
         validationSchema={getValidationSchema('channel')(channelNames)}
-        onSubmit={generateOnSubmit({ onHide, dispatch })}
+        onSubmit={generateOnSubmit({ onHide, dispatch, socket })}
       >
         {({
           handleChange,

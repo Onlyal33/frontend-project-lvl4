@@ -1,21 +1,27 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useContext } from 'react';
 import { useSelector } from 'react-redux';
 import {
   Modal, Button, FormControl, InputGroup,
 } from 'react-bootstrap';
 import { Formik, Form } from 'formik';
-import axios from 'axios';
-import routes from '../../common/routes.js';
 import getValidationSchema from '../../common/validation.js';
+import SocketContext from '../../contexts/SocketContext.js';
 
-const generateOnSubmit = ({ onHide, item }) => async ({ name }, actions) => {
-  const path = routes.channelPath(item.id);
-  try {
-    await axios.patch(path, { data: { attributes: { ...item, name: name.trim() } } });
-    onHide();
-  } catch (e) {
+const generateOnSubmit = ({ onHide, item, socket }) => ({ name }, actions) => {
+  if (socket.connected) {
+    socket.emit('renameChannel',
+      { ...item, name: name.trim() },
+      (res) => {
+        if (res.status === 'ok') {
+          onHide();
+        } else {
+          actions.setSubmitting(false);
+          actions.setFieldError('message', res.status);
+        }
+      });
+  } else {
     actions.setSubmitting(false);
-    actions.setFieldError('name', e.message);
+    actions.setFieldError('message', 'No network');
   }
 };
 
@@ -25,6 +31,8 @@ const getFiletredChannelNames = (idToRename) => (state) => state.channelsInfo.ch
 
 const Rename = ({ onHide, modalInfo: { item } }) => {
   const modalRef = useRef();
+  const socket = useContext(SocketContext);
+
   useEffect(() => {
     modalRef.current.select();
   }, []);
@@ -41,7 +49,7 @@ const Rename = ({ onHide, modalInfo: { item } }) => {
           name: item.name,
         }}
         validationSchema={getValidationSchema('channel')(filteredChannelNames)}
-        onSubmit={generateOnSubmit({ onHide, item })}
+        onSubmit={generateOnSubmit({ onHide, item, socket })}
       >
         {({
           handleChange,

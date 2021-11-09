@@ -25,29 +25,29 @@ const renderChannel = ({
   const { id } = channel;
   const variant = id === currentChannelId ? 'secondary' : 'light';
   const channelButton = (
-    <Button block style={{ minWidth: 0 }} variant={variant} onClick={handleChangeChannel(id)} className="rounded-0">
-      <div align="justify" style={{ textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
-        #
-        {' '}
-        {channel.name}
-      </div>
+    <Button onClick={handleChangeChannel(id)} variant={variant} className="w-100 rounded-0 text-start text-truncate">
+      #
+      {' '}
+      {channel.name}
     </Button>
   );
 
   if (channel.removable) {
     return (
-      <Nav.Item key={id} className="btn-block" as={ButtonGroup}>
-        {channelButton}
-        <Dropdown.Toggle split variant={variant} />
-        <Dropdown.Menu>
-          <Dropdown.Item onClick={() => showModal('remove', channel)}>Remove</Dropdown.Item>
-          <Dropdown.Item onClick={() => showModal('rename', channel)}>Rename</Dropdown.Item>
-        </Dropdown.Menu>
+      <Nav.Item key={id} className="w-100">
+        <Dropdown className="d-flex" as={ButtonGroup}>
+          {channelButton}
+          <Dropdown.Toggle split variant={variant} />
+          <Dropdown.Menu>
+            <Dropdown.Item onClick={() => showModal('remove', channel)}>Remove</Dropdown.Item>
+            <Dropdown.Item onClick={() => showModal('rename', channel)}>Rename</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
       </Nav.Item>
     );
   }
   return (
-    <Nav.Item key={id}>
+    <Nav.Item key={id} className="w-100">
       {channelButton}
     </Nav.Item>
   );
@@ -60,7 +60,7 @@ const Channels = () => {
 
   const dispatch = useDispatch();
   const handleChangeChannel = (id) => () => {
-    dispatch(changeCurrentChannel({ data: { id } }));
+    dispatch(changeCurrentChannel({ id }));
   };
 
   const hideModal = () => dispatch(closeModal());
@@ -68,7 +68,7 @@ const Channels = () => {
 
   return (
     <>
-      <div className="d-flex mb-2 pl-4 pr-2 justify-content-between">
+      <div className="d-flex mb-2 ps-4 pe-2 justify-content-between">
         <span>
           Channels
         </span>
@@ -77,11 +77,9 @@ const Channels = () => {
         </Button>
       </div>
       <Nav className="flex-column px-2" variant="pills" fill>
-        <div className="overflow-auto w-100">
-          {channels.map((channel) => renderChannel({
-            channel, currentChannelId, handleChangeChannel, showModal,
-          }))}
-        </div>
+        {channels.map((channel) => renderChannel({
+          channel, currentChannelId, handleChangeChannel, showModal,
+        }))}
         {renderModal({ modalInfo, hideModal })}
       </Nav>
     </>

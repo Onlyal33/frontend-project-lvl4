@@ -13,18 +13,18 @@ const channelsSlice = createSlice({
       state.channels.push(action.payload);
     },
     removeChannel(state, action) {
-      const idToRemove = action.payload.data.id;
+      const idToRemove = action.payload.id;
       state.channels = state.channels.filter(({ id }) => id !== idToRemove);
       if (state.currentChannelId === idToRemove) {
         state.currentChannelId = state.channels[0]?.id;
       }
     },
     renameChannel(state, action) {
-      const channel = state.channels.find(({ id }) => id === action.payload.data.id);
-      channel.name = action.payload.data.attributes.name;
+      const channel = state.channels.find(({ id }) => id === action.payload.id);
+      channel.name = action.payload.name;
     },
     changeCurrentChannel(state, action) {
-      state.currentChannelId = action.payload.data.id;
+      state.currentChannelId = action.payload.id;
     },
   },
 });

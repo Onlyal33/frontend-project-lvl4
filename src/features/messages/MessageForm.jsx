@@ -57,10 +57,10 @@ const MessageForm = () => {
         isSubmitting,
         errors,
       }) => (
-        <Form className="py-1 border rounded-sm">
-          <InputGroup className="p-0 ps-2">
+        <Form className="py-1 border rounded-2">
+          <InputGroup>
             <FormControl
-              className="border-0"
+              className="border-0 p-0 ps-2"
               type="text"
               id="message"
               name="message"

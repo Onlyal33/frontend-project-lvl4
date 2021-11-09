@@ -110,7 +110,6 @@ const App = () => {
   });
 
   socket.on('newChannel', (payload) => {
-    console.log('received', payload);
     dispatch(addChannel(payload));
   });
 

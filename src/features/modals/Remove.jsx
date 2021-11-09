@@ -1,22 +1,41 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, {
+  useState, useRef, useEffect, useContext,
+} from 'react';
 import { Form, Modal, Button } from 'react-bootstrap';
-import axios from 'axios';
-import routes from '../../common/routes.js';
+import SocketContext from '../../contexts/SocketContext.js';
 
 const generateOnSubmit = ({
-  setError, setIsSubmitting, onHide, item,
-}) => async (event) => {
+  setError, setIsSubmitting, onHide, item, socket,
+}) => (event, actions) => {
   event.preventDefault();
-  const path = routes.channelPath(item.id);
   setError(null);
   setIsSubmitting(true);
+
+  if (socket.connected) {
+    socket.emit('removeChannel',
+      item,
+      (res) => {
+        if (res.status === 'ok') {
+          onHide();
+        } else {
+          actions.setSubmitting(false);
+          actions.setFieldError('message', res.status);
+        }
+      });
+  } else {
+    actions.setSubmitting(false);
+    actions.setFieldError('message', 'No network');
+  }
+/*
+  const path = routes.channelPath(item.id);
+
   try {
     await axios.delete(path);
     onHide();
   } catch (e) {
     setIsSubmitting(false);
     setError(e.message);
-  }
+  } */
 };
 
 const Remove = ({ onHide, modalInfo: { item } }) => {
@@ -26,6 +45,8 @@ const Remove = ({ onHide, modalInfo: { item } }) => {
 
   const [error, setError] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const socket = useContext(SocketContext);
 
   useEffect(() => {
     modalRef.current.focus();
@@ -52,9 +73,8 @@ const Remove = ({ onHide, modalInfo: { item } }) => {
           Cancel
         </Button>
         <Form
-          inline
           onSubmit={generateOnSubmit({
-            setError, setIsSubmitting, onHide, item,
+            setError, setIsSubmitting, onHide, item, socket,
           })}
         >
           <Form.Control
