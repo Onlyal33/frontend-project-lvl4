@@ -8,7 +8,7 @@ import {
   useLocation, useHistory,
 } from 'react-router-dom';
 import routes from '../common/routes.js';
-import AuthContext from '../common/AuthContext.js';
+import AuthContext from '../contexts/AuthContext.js';
 
 const LoginPage = () => {
   const auth = useContext(AuthContext);
@@ -30,9 +30,7 @@ const LoginPage = () => {
 
       try {
         const res = await axios.post(routes.loginPath(), values);
-        const userId = JSON.stringify(res.data);
-        console.log(userId);
-        auth.logIn(userId);
+        auth.logIn(res.data);
         const { from } = location.state || { from: { pathname: '/' } };
         history.replace(from);
       } catch (err) {

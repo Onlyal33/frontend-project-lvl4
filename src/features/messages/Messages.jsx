@@ -2,12 +2,12 @@ import React, { useRef, useEffect } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import { ListGroup } from 'react-bootstrap';
 
-const renderMessage = ({ id, nickname, message }) => (
+const renderMessage = ({ id, username, body }) => (
   <span key={id} className="text-wrap text-break">
-    <b>{nickname}</b>
+    <b>{username}</b>
     :
     {' '}
-    {message}
+    {body}
   </span>
 );
 

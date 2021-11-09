@@ -2,11 +2,10 @@ import React, { useContext, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { Formik, Form } from 'formik';
 import {
-  Button, Col, Row, FormControl, InputGroup,
+  Button, FormControl, InputGroup,
 } from 'react-bootstrap';
-import axios from 'axios';
-import routes from '../../common/routes.js';
-import AuthContext from '../../common/AuthContext.js';
+import AuthContext from '../../contexts/AuthContext.js';
+import SocketContext from '../../contexts/SocketContext.js';
 import getValidationSchema from '../../common/validation.js';
 
 const MessageForm = () => {
@@ -20,18 +19,26 @@ const MessageForm = () => {
     }
   }, [currentChannelId, isModalOpen]);
 
-  const nickname = useContext(AuthContext);
-  // TODO rework nickname-related issues
-
-  const handleSubmit = async ({ message }, actions) => {
-    const path = routes.channelMessagesPath(currentChannelId);
-    try {
-      await axios.post(path, { data: { attributes: { message: message.trim(), nickname } } });
-      actions.resetForm();
-    } catch (e) {
-      actions.setFieldError('message', e.message);
-    } finally {
+  const username = useContext(AuthContext).getUsername();
+  const socket = useContext(SocketContext);
+  const handleSubmit = ({ message }, actions) => {
+    if (socket.connected) {
+      socket.emit('newMessage',
+        {
+          body: message.trim(),
+          username,
+          channelId: currentChannelId,
+        },
+        (res) => {
+          if (res.status === 'ok') {
+            actions.resetForm();
+            inputRef.current.focus();
+          }
+          actions.setSubmitting(false);
+        });
+    } else {
       actions.setSubmitting(false);
+      actions.setFieldError('message', 'No network');
       inputRef.current.focus();
     }
   };
@@ -50,33 +57,28 @@ const MessageForm = () => {
         isSubmitting,
         errors,
       }) => (
-        <Form>
-          <Row>
-            <Col>
-              <InputGroup>
-                <FormControl
-                  type="text"
-                  id="message"
-                  name="message"
-                  aria-label="new message"
-                  onChange={handleChange}
-                  placeholder="Write your message here"
-                  value={values.message}
-                  isInvalid={!!errors.message}
-                  disabled={isSubmitting}
-                  ref={inputRef}
-                />
-                <FormControl.Feedback type="invalid">
-                  {errors.message}
-                </FormControl.Feedback>
-              </InputGroup>
-            </Col>
-            <Col xs="auto">
-              <Button type="submit" disabled={isSubmitting}>
-                Send
-              </Button>
-            </Col>
-          </Row>
+        <Form className="py-1 border rounded-sm">
+          <InputGroup className="p-0 ps-2">
+            <FormControl
+              className="border-0"
+              type="text"
+              id="message"
+              name="message"
+              aria-label="new message"
+              onChange={handleChange}
+              placeholder="Write your message here"
+              value={values.message}
+              isInvalid={!!errors.message}
+              disabled={isSubmitting}
+              ref={inputRef}
+            />
+            <Button type="submit" variant="link" className="rounded-0 text-secondary" disabled={isSubmitting || values.message === ''}>
+              Send
+            </Button>
+            <FormControl.Feedback type="invalid">
+              {errors.message}
+            </FormControl.Feedback>
+          </InputGroup>
         </Form>
       )}
     </Formik>

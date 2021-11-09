@@ -1,5 +1,7 @@
 import React from 'react';
-import { ButtonGroup, Button, Dropdown } from 'react-bootstrap';
+import {
+  ButtonGroup, Button, Dropdown, Nav,
+} from 'react-bootstrap';
 import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 import { changeCurrentChannel } from './channelsSlice.js';
 import getModal from '../modals';
@@ -21,29 +23,33 @@ const renderChannel = ({
   showModal,
 }) => {
   const { id } = channel;
-  const variant = id === currentChannelId ? 'primary' : 'light';
+  const variant = id === currentChannelId ? 'secondary' : 'light';
   const channelButton = (
-    <Button block style={{ minWidth: 0 }} variant={variant} onClick={handleChangeChannel(id)}>
-      <div align="justify" style={{ textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>{channel.name}</div>
+    <Button block style={{ minWidth: 0 }} variant={variant} onClick={handleChangeChannel(id)} className="rounded-0">
+      <div align="justify" style={{ textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
+        #
+        {' '}
+        {channel.name}
+      </div>
     </Button>
   );
 
   if (channel.removable) {
     return (
-      <Dropdown key={id} className="btn-block" as={ButtonGroup}>
+      <Nav.Item key={id} className="btn-block" as={ButtonGroup}>
         {channelButton}
         <Dropdown.Toggle split variant={variant} />
         <Dropdown.Menu>
           <Dropdown.Item onClick={() => showModal('remove', channel)}>Remove</Dropdown.Item>
           <Dropdown.Item onClick={() => showModal('rename', channel)}>Rename</Dropdown.Item>
         </Dropdown.Menu>
-      </Dropdown>
+      </Nav.Item>
     );
   }
   return (
-    <React.Fragment key={id}>
+    <Nav.Item key={id}>
       {channelButton}
-    </React.Fragment>
+    </Nav.Item>
   );
 };
 
@@ -62,22 +68,22 @@ const Channels = () => {
 
   return (
     <>
-      <div className="col-3 d-flex flex-column h-100 border-right">
-        <div className="d-flex flex-row">
-          <span className="p-0">
-            Channels
-          </span>
-          <Button variant="link" className="ml-auto p-0" onClick={() => showModal('add')}>
-            +
-          </Button>
-        </div>
-        <div className="overflow-auto">
+      <div className="d-flex mb-2 pl-4 pr-2 justify-content-between">
+        <span>
+          Channels
+        </span>
+        <Button variant="link" className="p-0 text-secondary" onClick={() => showModal('add')}>
+          +
+        </Button>
+      </div>
+      <Nav className="flex-column px-2" variant="pills" fill>
+        <div className="overflow-auto w-100">
           {channels.map((channel) => renderChannel({
             channel, currentChannelId, handleChangeChannel, showModal,
           }))}
         </div>
-      </div>
-      {renderModal({ modalInfo, hideModal })}
+        {renderModal({ modalInfo, hideModal })}
+      </Nav>
     </>
   );
 };
