@@ -3,18 +3,20 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
+  Link,
   useLocation,
   Redirect,
 } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { Navbar, Container } from 'react-bootstrap';
 import LoginPage from '../features/LoginPage.jsx';
+import SignUpPage from '../features/SignUpPage.jsx';
 import ChatPage from '../features/ChatPage.jsx';
+import LogOutButton from '../features/LogOutButton.jsx';
 import AuthContext from '../contexts/AuthContext.js';
 import SocketContext from '../contexts/SocketContext.js';
 import { addMessage } from '../features/messages/messagesSlice.js';
-import {
-  addChannel, removeChannel, renameChannel,
-} from '../features/channels/channelsSlice.js';
+import { addChannel, removeChannel, renameChannel } from '../features/channels/channelsSlice.js';
 
 const AuthProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(!!localStorage.getItem('userId'));
@@ -85,6 +87,25 @@ const LoginRoute = () => {
   );
 };
 
+const SignUpRoute = () => {
+  const auth = useContext(AuthContext);
+
+  return (
+    <Route
+      render={({ location }) => (auth.loggedIn ? (
+        <Redirect
+          to={{
+            pathname: '/',
+            state: { from: location },
+          }}
+        />
+      ) : (
+        <SignUpPage />
+      ))}
+    />
+  );
+};
+
 const NoMatch = () => {
   const location = useLocation();
 
@@ -124,17 +145,31 @@ const App = () => {
   return (
     <AuthProvider>
       <Router>
-        <Switch>
-          <Route exact path="/">
-            <ChatRoute />
-          </Route>
-          <Route path="/login">
-            <LoginRoute />
-          </Route>
-          <Route path="*">
-            <NoMatch />
-          </Route>
-        </Switch>
+        <div className="h-100">
+          <div className="d-flex flex-column h-100">
+            <Navbar bg="light" expand="lg" className="shadow-sm">
+              <Container>
+                <Navbar.Brand as={Link} to="/">Hexlet-Chat</Navbar.Brand>
+                <LogOutButton />
+              </Container>
+            </Navbar>
+            <Switch>
+              <Route exact path="/">
+                <ChatRoute />
+              </Route>
+              <Route path="/login">
+                <LoginRoute />
+              </Route>
+              <Route path="/signup">
+                <SignUpRoute />
+              </Route>
+              <Route path="*">
+                <NoMatch />
+              </Route>
+            </Switch>
+          </div>
+        </div>
+
       </Router>
     </AuthProvider>
   );
