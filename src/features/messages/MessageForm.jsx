@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { Formik, Form } from 'formik';
+import { useTranslation } from 'react-i18next';
 import {
   Button, FormControl, InputGroup,
 } from 'react-bootstrap';
@@ -12,6 +13,8 @@ const MessageForm = () => {
   const currentChannelId = useSelector((state) => state.channelsInfo.currentChannelId);
   const isModalOpen = useSelector((state) => state.modalInfo.isOpen);
   const inputRef = useRef();
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (!isModalOpen) {
@@ -38,7 +41,7 @@ const MessageForm = () => {
         });
     } else {
       actions.setSubmitting(false);
-      actions.setFieldError('message', 'No network');
+      actions.setFieldError('message', t('messages.errors.noNetwork'));
       inputRef.current.focus();
     }
   };
@@ -73,7 +76,7 @@ const MessageForm = () => {
               ref={inputRef}
             />
             <Button type="submit" variant="link" className="rounded-0 text-secondary" disabled={isSubmitting || values.message === ''}>
-              Send
+              {t('main.button.send')}
             </Button>
             <FormControl.Feedback type="invalid">
               {errors.message}

@@ -5,6 +5,7 @@ import React, {
 import { useFormik } from 'formik';
 import { Button, Form, Card } from 'react-bootstrap';
 import { useLocation, useHistory } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import routes from '../common/routes.js';
 import AuthContext from '../contexts/AuthContext.js';
 import getValidationSchema from '../common/validation.js';
@@ -15,6 +16,7 @@ const SignUpPage = () => {
   const inputRef = useRef(null);
   const location = useLocation();
   const history = useHistory();
+  const { t } = useTranslation();
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
@@ -44,7 +46,7 @@ const SignUpPage = () => {
       } catch (err) {
         if (err.isAxiosError && err.response.status === 409) {
           setAuthFailed(true);
-          actions.setFieldError('username', 'User already exists');
+          actions.setFieldError('username', t('signup.errors.userExists'));
           inputRef.current.select();
           return;
         }
@@ -60,7 +62,7 @@ const SignUpPage = () => {
           <Card className="shadow-sm">
             <Card.Body className="d-flex flex-column flex-md-row justify-content-around align-items-center p-5">
               <Form onSubmit={formik.handleSubmit} className="p-3">
-                <Card.Title className="text-center mb-4" as="h1">Registration</Card.Title>
+                <Card.Title className="text-center mb-4" as="h1">{t('signup.header')}</Card.Title>
                 <Form.Group className="form-floating mb-3">
                   <Form.Control
                     onChange={formik.handleChange}
@@ -76,7 +78,7 @@ const SignUpPage = () => {
                   <Form.Control.Feedback type="invalid">
                     {formik.errors.username}
                   </Form.Control.Feedback>
-                  <Form.Label htmlFor="username">Username</Form.Label>
+                  <Form.Label htmlFor="username">{t('tooltip.username')}</Form.Label>
                 </Form.Group>
                 <Form.Group className="form-floating mb-3">
                   <Form.Control
@@ -93,7 +95,7 @@ const SignUpPage = () => {
                   <Form.Control.Feedback type="invalid">
                     {formik.errors.password}
                   </Form.Control.Feedback>
-                  <Form.Label htmlFor="password">Password</Form.Label>
+                  <Form.Label htmlFor="password">{t('tooltip.password')}</Form.Label>
                 </Form.Group>
                 <Form.Group className="form-floating mb-3">
                   <Form.Control
@@ -112,9 +114,9 @@ const SignUpPage = () => {
                   <Form.Control.Feedback type="invalid">
                     {formik.errors.passwordConfirmation}
                   </Form.Control.Feedback>
-                  <Form.Label htmlFor="passwordConfirmation">Confirm Password</Form.Label>
+                  <Form.Label htmlFor="passwordConfirmation">{t('tooltip.confirmPassword')}</Form.Label>
                 </Form.Group>
-                <Button type="submit" className="w-100" variant="outline-primary">Sign Up</Button>
+                <Button type="submit" className="w-100" variant="outline-primary">{t('signup.button')}</Button>
               </Form>
             </Card.Body>
           </Card>

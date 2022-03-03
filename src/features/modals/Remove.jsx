@@ -2,10 +2,11 @@ import React, {
   useState, useRef, useEffect, useContext,
 } from 'react';
 import { Form, Modal, Button } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import SocketContext from '../../contexts/SocketContext.js';
 
 const generateOnSubmit = ({
-  setError, setIsSubmitting, onHide, item, socket,
+  setError, setIsSubmitting, onHide, item, socket, t,
 }) => (event, actions) => {
   event.preventDefault();
   setError(null);
@@ -24,7 +25,7 @@ const generateOnSubmit = ({
       });
   } else {
     actions.setSubmitting(false);
-    actions.setFieldError('message', 'No network');
+    actions.setFieldError('message', t('modal.errors.noNetwork'));
   }
 /*
   const path = routes.channelPath(item.id);
@@ -47,6 +48,7 @@ const Remove = ({ onHide, modalInfo: { item } }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const socket = useContext(SocketContext);
+  const { t } = useTranslation();
 
   useEffect(() => {
     modalRef.current.focus();
@@ -55,26 +57,23 @@ const Remove = ({ onHide, modalInfo: { item } }) => {
   return (
     <Modal show onHide={onHide}>
       <Modal.Header closeButton>
-        <Modal.Title>Remove Channel</Modal.Title>
+        <Modal.Title>{t('modal.header.remove')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <div>
-          Do you really want to remove channel
-          {' '}
+          {t('modal.removeText1')}
           {name}
-          ?
+          {t('modal.removeText2')}
         </div>
         <Form.Text className="text-danger">
           {error}
         </Form.Text>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={onHide}>
-          Cancel
-        </Button>
+        <Button variant="secondary" onClick={onHide}>{t('modal.button.cancel')}</Button>
         <Form
           onSubmit={generateOnSubmit({
-            setError, setIsSubmitting, onHide, item, socket,
+            setError, setIsSubmitting, onHide, item, socket, t,
           })}
         >
           <Form.Control
@@ -85,7 +84,7 @@ const Remove = ({ onHide, modalInfo: { item } }) => {
             disabled={isSubmitting}
             ref={modalRef}
           >
-            Submit
+            {t('modal.button.submit')}
           </Form.Control>
         </Form>
       </Modal.Footer>

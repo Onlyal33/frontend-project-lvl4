@@ -5,6 +5,7 @@ import React, {
 import { useFormik } from 'formik';
 import { Button, Form, Card } from 'react-bootstrap';
 import { useLocation, useHistory, Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import routes from '../common/routes.js';
 import AuthContext from '../contexts/AuthContext.js';
 
@@ -14,6 +15,7 @@ const LoginPage = () => {
   const inputRef = useRef(null);
   const location = useLocation();
   const history = useHistory();
+  const { t } = useTranslation();
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
@@ -49,7 +51,7 @@ const LoginPage = () => {
           <Card className="shadow-sm">
             <Card.Body className="d-flex flex-column flex-md-row justify-content-around align-items-center p-5">
               <Form onSubmit={formik.handleSubmit} className="p-3">
-                <Card.Title className="text-center mb-4" as="h1">Log in</Card.Title>
+                <Card.Title className="text-center mb-4" as="h1">{t('login.header')}</Card.Title>
                 <Form.Group className="form-floating mb-3">
                   <Form.Control
                     onChange={formik.handleChange}
@@ -62,7 +64,7 @@ const LoginPage = () => {
                     required
                     ref={inputRef}
                   />
-                  <Form.Label htmlFor="username">Username</Form.Label>
+                  <Form.Label htmlFor="username">{t('tooltip.username')}</Form.Label>
                 </Form.Group>
                 <Form.Group className="form-floating mb-3">
                   <Form.Control
@@ -76,15 +78,15 @@ const LoginPage = () => {
                     isInvalid={authFailed}
                     required
                   />
-                  <Form.Control.Feedback type="invalid">the username or password is incorrect</Form.Control.Feedback>
-                  <Form.Label htmlFor="password">Password</Form.Label>
+                  <Form.Control.Feedback type="invalid">{t('login.errors.incorrect')}</Form.Control.Feedback>
+                  <Form.Label htmlFor="password">{t('tooltip.password')}</Form.Label>
                 </Form.Group>
-                <Button type="submit" className="w-100" variant="outline-primary">Log In</Button>
+                <Button type="submit" className="w-100" variant="outline-primary">{t('login.button')}</Button>
               </Form>
             </Card.Body>
             <Card.Footer className="text-muted text-center p-4">
-              <span>Do not have an account? </span>
-              <Link to="/signup">Sign up</Link>
+              <span>{t('login.redirectText')}</span>
+              <Link to="/signup">{t('login.redirectLink')}</Link>
             </Card.Footer>
           </Card>
         </div>

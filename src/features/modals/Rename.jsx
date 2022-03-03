@@ -4,10 +4,13 @@ import {
   Modal, Button, FormControl, InputGroup,
 } from 'react-bootstrap';
 import { Formik, Form } from 'formik';
+import { useTranslation } from 'react-i18next';
 import getValidationSchema from '../../common/validation.js';
 import SocketContext from '../../contexts/SocketContext.js';
 
-const generateOnSubmit = ({ onHide, item, socket }) => ({ name }, actions) => {
+const generateOnSubmit = ({
+  onHide, item, socket, t,
+}) => ({ name }, actions) => {
   if (socket.connected) {
     socket.emit('renameChannel',
       { ...item, name: name.trim() },
@@ -21,7 +24,7 @@ const generateOnSubmit = ({ onHide, item, socket }) => ({ name }, actions) => {
       });
   } else {
     actions.setSubmitting(false);
-    actions.setFieldError('message', 'No network');
+    actions.setFieldError('message', t('modal.errors.noNetwork'));
   }
 };
 
@@ -32,6 +35,7 @@ const getFiletredChannelNames = (idToRename) => (state) => state.channelsInfo.ch
 const Rename = ({ onHide, modalInfo: { item } }) => {
   const modalRef = useRef();
   const socket = useContext(SocketContext);
+  const { t } = useTranslation();
 
   useEffect(() => {
     modalRef.current.select();
@@ -42,14 +46,16 @@ const Rename = ({ onHide, modalInfo: { item } }) => {
   return (
     <Modal show onHide={onHide}>
       <Modal.Header closeButton>
-        <Modal.Title>Rename Channel</Modal.Title>
+        <Modal.Title>{t('modal.header.rename')}</Modal.Title>
       </Modal.Header>
       <Formik
         initialValues={{
           name: item.name,
         }}
         validationSchema={getValidationSchema('channel')(filteredChannelNames)}
-        onSubmit={generateOnSubmit({ onHide, item, socket })}
+        onSubmit={generateOnSubmit({
+          onHide, item, socket, t,
+        })}
       >
         {({
           handleChange,
@@ -76,12 +82,8 @@ const Rename = ({ onHide, modalInfo: { item } }) => {
               </FormControl.Feedback>
             </Modal.Body>
             <Modal.Footer>
-              <Button variant="secondary" onClick={onHide}>
-                Cancel
-              </Button>
-              <Button variant="primary" type="submit" disabled={isSubmitting}>
-                Submit
-              </Button>
+              <Button variant="secondary" onClick={onHide}>{t('modal.button.cancel')}</Button>
+              <Button variant="primary" type="submit" disabled={isSubmitting}>{t('modal.button.submit')}</Button>
             </Modal.Footer>
           </Form>
         )}

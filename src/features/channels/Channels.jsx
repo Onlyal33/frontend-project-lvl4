@@ -3,6 +3,7 @@ import {
   ButtonGroup, Button, Dropdown, Nav,
 } from 'react-bootstrap';
 import { shallowEqual, useSelector, useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { changeCurrentChannel } from './channelsSlice.js';
 import getModal from '../modals';
 import { openModal, closeModal } from '../modals/modalsSlice.js';
@@ -21,6 +22,7 @@ const renderChannel = ({
   currentChannelId,
   handleChangeChannel,
   showModal,
+  t,
 }) => {
   const { id } = channel;
   const variant = id === currentChannelId ? 'secondary' : 'light';
@@ -39,8 +41,8 @@ const renderChannel = ({
           {channelButton}
           <Dropdown.Toggle split variant={variant} />
           <Dropdown.Menu>
-            <Dropdown.Item onClick={() => showModal('remove', channel)}>Remove</Dropdown.Item>
-            <Dropdown.Item onClick={() => showModal('rename', channel)}>Rename</Dropdown.Item>
+            <Dropdown.Item onClick={() => showModal('remove', channel)}>{t('main.button.remove')}</Dropdown.Item>
+            <Dropdown.Item onClick={() => showModal('rename', channel)}>{t('main.button.rename')}</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
       </Nav.Item>
@@ -58,6 +60,8 @@ const Channels = () => {
   const currentChannelId = useSelector((state) => state.channelsInfo.currentChannelId);
   const modalInfo = useSelector((state) => state.modalInfo);
 
+  const { t } = useTranslation();
+
   const dispatch = useDispatch();
   const handleChangeChannel = (id) => () => {
     dispatch(changeCurrentChannel({ id }));
@@ -69,16 +73,12 @@ const Channels = () => {
   return (
     <>
       <div className="d-flex mb-2 ps-4 pe-2 justify-content-between">
-        <span>
-          Channels
-        </span>
-        <Button variant="link" className="p-0 text-secondary" onClick={() => showModal('add')}>
-          +
-        </Button>
+        <span>{t('main.channels')}</span>
+        <Button variant="link" className="p-0 text-secondary" onClick={() => showModal('add')}>{t('main.button.add')}</Button>
       </div>
       <Nav className="flex-column px-2" variant="pills" fill>
         {channels.map((channel) => renderChannel({
-          channel, currentChannelId, handleChangeChannel, showModal,
+          channel, currentChannelId, handleChangeChannel, showModal, t,
         }))}
         {renderModal({ modalInfo, hideModal })}
       </Nav>

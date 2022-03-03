@@ -7,6 +7,7 @@ import {
   useLocation,
   Redirect,
 } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { Navbar, Container } from 'react-bootstrap';
 import LoginPage from '../features/LoginPage.jsx';
@@ -125,6 +126,7 @@ const NoMatch = () => {
 const App = () => {
   const socket = useContext(SocketContext);
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   socket.on('newMessage', (payload) => {
     dispatch(addMessage(payload));
@@ -149,7 +151,7 @@ const App = () => {
           <div className="d-flex flex-column h-100">
             <Navbar bg="light" expand="lg" className="shadow-sm">
               <Container>
-                <Navbar.Brand as={Link} to="/">Hexlet-Chat</Navbar.Brand>
+                <Navbar.Brand as={Link} to="/">{t('appHeader')}</Navbar.Brand>
                 <LogOutButton />
               </Container>
             </Navbar>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 const getChannelName = (state) => {
   const { currentChannelId } = state.channelsInfo;
@@ -18,6 +19,7 @@ const getMessagesCountByChannelId = (state) => {
 const MessagesHeader = () => {
   const channelName = useSelector(getChannelName);
   const messagesCount = useSelector(getMessagesCountByChannelId);
+  const { t } = useTranslation();
 
   return (
     <>
@@ -30,8 +32,7 @@ const MessagesHeader = () => {
       </p>
       <span className="text-muted">
         {messagesCount}
-        {' '}
-        messages
+        {t('main.message')}
       </span>
     </>
   );
