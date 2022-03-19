@@ -69,7 +69,7 @@ const MessageForm = () => {
               name="message"
               aria-label="new message"
               onChange={handleChange}
-              placeholder="Write your message here"
+              placeholder={t('tooltip.message')}
               value={values.message}
               isInvalid={!!errors.message}
               disabled={isSubmitting}

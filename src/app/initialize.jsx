@@ -1,8 +1,7 @@
 import { io } from 'socket.io-client';
 import React from 'react';
 import { render } from 'react-dom';
-import i18n from 'i18next';
-import { initReactI18next, I18nextProvider } from 'react-i18next';
+import { I18nextProvider } from 'react-i18next';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import messagesReducer from '../features/messages/messagesSlice.js';
@@ -10,7 +9,7 @@ import channelsReducer from '../features/channels/channelsSlice.js';
 import modalsReducer from '../features/modals/modalsSlice.js';
 import App from './App.jsx';
 import SocketContext from '../contexts/SocketContext.js';
-import resources from '../locales/index.js';
+import i18n from './i18n';
 
 const SocketProvider = ({ children }) => {
   const socket = io();
@@ -23,18 +22,6 @@ const SocketProvider = ({ children }) => {
 };
 
 export default async () => {
-  await i18n
-    .use(initReactI18next)
-    .init({
-      fallbackLng: 'en',
-      debug: false,
-
-      interpolation: {
-        escapeValue: false, // not needed for react as it escapes by default
-      },
-      resources,
-    });
-
   const store = configureStore({
     reducer: {
       channelsInfo: channelsReducer,

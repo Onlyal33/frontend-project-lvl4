@@ -5,7 +5,7 @@ export default {
       username: 'Username',
       password: 'Password',
       confirmPassword: 'Confirm Password',
-      message: 'Write your messsage here',
+      message: 'Write your message here',
     },
     login: {
       header: 'Log in',
@@ -37,7 +37,10 @@ export default {
         remove: 'Remove',
       },
       channels: 'Channels',
-      messages: ' messages',
+      messages: {
+        key_one: '{{count}} message',
+        key_other: '{{count}} messages',
+      },
     },
     modal: {
       header: {
@@ -53,6 +56,15 @@ export default {
       removeText2: '?',
       errors: {
         noNetwork: 'No network',
+      },
+    },
+    validation: {
+      required: 'Please enter some text here',
+      match: 'Passwords must match',
+      exist: 'Channel already exists',
+      length: {
+        login: 'From 3 to 20 characters',
+        password: 'From 6 characters',
       },
     },
   },

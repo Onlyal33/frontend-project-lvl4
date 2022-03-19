@@ -31,8 +31,7 @@ const MessagesHeader = () => {
         </b>
       </p>
       <span className="text-muted">
-        {messagesCount}
-        {t('main.message')}
+        {t('main.messages.key', { count: messagesCount })}
       </span>
     </>
   );
