@@ -21,11 +21,13 @@ module.exports = {
     publicPath: '/assets/',
   },
   devServer: {
-    compress: true,
+    // compress: true,
     port: 8080,
     host: '0.0.0.0',
-    publicPath: '/assets/',
     historyApiFallback: true,
+    devMiddleware: {
+      publicPath: '/assets/',
+    },
   },
   plugins: [
     new MiniCssExtractPlugin(),
