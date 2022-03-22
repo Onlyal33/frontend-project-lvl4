@@ -6,7 +6,7 @@ import buildApp from '../server/index.js';
 const buildUrl = (url) => path.join('/api/v1/', url);
 
 test('get /channels', async () => {
-  const app = buildApp({ port: 5000 });
+  const app = buildApp({ port: 5555 });
   const response = await app.inject({
     url: buildUrl('channels'),
   });
@@ -43,7 +43,7 @@ test('post /channels', async () => {
       },
     },
   };
-  const app = buildApp({ port: 5000 });
+  const app = buildApp({ port: 5555 });
   const response = await app.inject({
     method: 'POST',
     url: buildUrl('channels'),
