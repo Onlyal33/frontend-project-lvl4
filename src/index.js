@@ -1,5 +1,6 @@
 import 'core-js/stable/index.js';
 import 'regenerator-runtime/runtime.js';
+import 'react-toastify/dist/ReactToastify.css';
 
 import '../assets/application.scss';
 

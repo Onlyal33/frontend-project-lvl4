@@ -58,6 +58,13 @@ export default {
         noNetwork: 'No network',
       },
     },
+    toast: {
+      channel: {
+        add: 'Channel added',
+        rename: 'Channel renamed',
+        remove: 'Channel removed',
+      },
+    },
     validation: {
       required: 'Please enter some text here',
       match: 'Passwords must match',

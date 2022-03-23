@@ -10,6 +10,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { Navbar, Container } from 'react-bootstrap';
+import { ToastContainer } from 'react-toastify';
 import LoginPage from '../features/LoginPage.jsx';
 import SignUpPage from '../features/SignUpPage.jsx';
 import ChatPage from '../features/ChatPage.jsx';
@@ -172,7 +173,7 @@ const App = () => {
             </Switch>
           </div>
         </div>
-
+        <ToastContainer />
       </Router>
     </AuthProvider>
   );

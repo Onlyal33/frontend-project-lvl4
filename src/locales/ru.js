@@ -59,6 +59,13 @@ export default {
         noNetwork: 'Нет сети',
       },
     },
+    toast: {
+      channel: {
+        add: 'Канал создан',
+        rename: 'Канал переименован',
+        remove: 'Канал удален',
+      },
+    },
     validation: {
       required: 'Обязательное поле',
       match: 'Пароли должны совпадать',

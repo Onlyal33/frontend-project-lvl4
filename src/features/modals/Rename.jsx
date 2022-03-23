@@ -5,6 +5,7 @@ import {
 } from 'react-bootstrap';
 import { Formik, Form } from 'formik';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import getValidationSchema from '../../common/validation.js';
 import SocketContext from '../../contexts/SocketContext.js';
 
@@ -17,6 +18,7 @@ const generateOnSubmit = ({
       { ...item, name: name.trim() },
       (res) => {
         if (res.status === 'ok') {
+          toast.success(t('toast.channel.rename'));
           onHide();
         } else {
           actions.setSubmitting(false);

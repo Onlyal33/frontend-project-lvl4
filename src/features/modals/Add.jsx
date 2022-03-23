@@ -5,6 +5,7 @@ import {
 } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import getValidationSchema from '../../common/validation.js';
 import { changeCurrentChannel } from '../channels/channelsSlice.js';
 import SocketContext from '../../contexts/SocketContext.js';
@@ -21,6 +22,7 @@ const generateOnSubmit = ({
       (res) => {
         if (res.status === 'ok') {
           dispatch(changeCurrentChannel(res.data));
+          toast.success(t('toast.channel.add'));
           onHide();
         } else {
           actions.setSubmitting(false);

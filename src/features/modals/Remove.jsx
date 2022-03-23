@@ -3,6 +3,7 @@ import React, {
 } from 'react';
 import { Form, Modal, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import SocketContext from '../../contexts/SocketContext.js';
 
 const generateOnSubmit = ({
@@ -18,6 +19,7 @@ const generateOnSubmit = ({
       item,
       (res) => {
         if (res.status === 'ok') {
+          toast.success(t('toast.channel.remove'));
           onHide();
         } else {
           actions.setSubmitting(false);
