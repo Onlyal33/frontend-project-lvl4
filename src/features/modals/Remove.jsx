@@ -13,7 +13,8 @@ const generateOnSubmit = ({
   setIsSubmitting(true);
 
   if (socket.connected) {
-    socket.emit('removeChannel',
+    socket.emit(
+      'removeChannel',
       item,
       (res) => {
         if (res.status === 'ok') {
@@ -22,7 +23,8 @@ const generateOnSubmit = ({
           actions.setSubmitting(false);
           actions.setFieldError('message', res.status);
         }
-      });
+      },
+    );
   } else {
     actions.setSubmitting(false);
     actions.setFieldError('message', t('modal.errors.noNetwork'));

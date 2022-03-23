@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useMemo } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -40,11 +40,12 @@ const AuthProvider = ({ children }) => {
 
   const getUserId = () => JSON.parse(localStorage.getItem('userId'));
 
+  const authData = useMemo(() => ({
+    loggedIn, logIn, logOut, getUsername, getUserId,
+  }));
+
   return (
-    <AuthContext.Provider value={{
-      loggedIn, logIn, logOut, getUsername, getUserId,
-    }}
-    >
+    <AuthContext.Provider value={authData}>
       {children}
     </AuthContext.Provider>
   );

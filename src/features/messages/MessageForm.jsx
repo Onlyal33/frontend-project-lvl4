@@ -26,7 +26,8 @@ const MessageForm = () => {
   const socket = useContext(SocketContext);
   const handleSubmit = ({ message }, actions) => {
     if (socket.connected) {
-      socket.emit('newMessage',
+      socket.emit(
+        'newMessage',
         {
           body: message.trim(),
           username,
@@ -38,7 +39,8 @@ const MessageForm = () => {
             inputRef.current.focus();
           }
           actions.setSubmitting(false);
-        });
+        },
+      );
     } else {
       actions.setSubmitting(false);
       actions.setFieldError('message', t('messages.errors.noNetwork'));

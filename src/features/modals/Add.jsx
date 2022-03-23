@@ -13,7 +13,8 @@ const generateOnSubmit = ({
   onHide, dispatch, socket, t,
 }) => ({ name }, actions) => {
   if (socket.connected) {
-    socket.emit('newChannel',
+    socket.emit(
+      'newChannel',
       {
         name: name.trim(),
       },
@@ -25,7 +26,8 @@ const generateOnSubmit = ({
           actions.setSubmitting(false);
           actions.setFieldError('message', res.status);
         }
-      });
+      },
+    );
   } else {
     actions.setSubmitting(false);
     actions.setFieldError('message', t('modal.errors.noNetwork'));

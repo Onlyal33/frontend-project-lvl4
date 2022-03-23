@@ -7,12 +7,6 @@ const mode = process.env.NODE_ENV || 'development';
 
 module.exports = {
   mode,
-  /* entry: [
-    `${__dirname}/src/index.js`,
-  ], */
-  externals: {
-    gon: 'gon',
-  },
   resolve: {
     extensions: ['.js', '.jsx'],
   },
@@ -21,7 +15,6 @@ module.exports = {
     publicPath: '/assets/',
   },
   devServer: {
-    // compress: true,
     port: 8090,
     host: '0.0.0.0',
     historyApiFallback: true,

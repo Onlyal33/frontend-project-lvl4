@@ -12,7 +12,8 @@ const generateOnSubmit = ({
   onHide, item, socket, t,
 }) => ({ name }, actions) => {
   if (socket.connected) {
-    socket.emit('renameChannel',
+    socket.emit(
+      'renameChannel',
       { ...item, name: name.trim() },
       (res) => {
         if (res.status === 'ok') {
@@ -21,7 +22,8 @@ const generateOnSubmit = ({
           actions.setSubmitting(false);
           actions.setFieldError('message', res.status);
         }
-      });
+      },
+    );
   } else {
     actions.setSubmitting(false);
     actions.setFieldError('message', t('modal.errors.noNetwork'));
