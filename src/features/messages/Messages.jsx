@@ -1,6 +1,7 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useContext } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import { ListGroup } from 'react-bootstrap';
+import ProfanityFilterContext from '../../contexts/ProfanityFilterContext.js';
 
 const renderMessage = ({ id, username, body }) => (
   <span key={id} className="text-wrap text-break">
@@ -18,6 +19,7 @@ const selectMessagesByChannelId = (state) => {
 };
 
 const Messages = () => {
+  const filterProfanity = useContext(ProfanityFilterContext);
   const filteredMessages = useSelector(selectMessagesByChannelId, shallowEqual);
 
   const bottomRef = useRef();
@@ -33,7 +35,9 @@ const Messages = () => {
   return (
     <>
       <ListGroup>
-        {filteredMessages.map(renderMessage)}
+        {filteredMessages
+          .map((message) => ({ ...message, body: filterProfanity.clean(message.body) }))
+          .map(renderMessage)}
       </ListGroup>
       <div ref={bottomRef} />
     </>
