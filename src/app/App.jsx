@@ -1,4 +1,4 @@
-import React, { useState, useContext, useMemo } from 'react';
+import React, { useContext } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -19,38 +19,6 @@ import AuthContext from '../contexts/AuthContext.js';
 import SocketContext from '../contexts/SocketContext.js';
 import { addMessage } from '../features/messages/messagesSlice.js';
 import { addChannel, removeChannel, renameChannel } from '../features/channels/channelsSlice.js';
-
-const AuthProvider = ({ children }) => {
-  const [loggedIn, setLoggedIn] = useState(!!localStorage.getItem('userId'));
-
-  const logIn = (data) => {
-    const userId = JSON.stringify(data.token);
-    const username = JSON.stringify(data.username);
-    localStorage.setItem('userId', userId);
-    localStorage.setItem('username', username);
-    setLoggedIn(true);
-  };
-
-  const logOut = () => {
-    localStorage.removeItem('userId');
-    localStorage.removeItem('username');
-    setLoggedIn(false);
-  };
-
-  const getUsername = () => JSON.parse(localStorage.getItem('username'));
-
-  const getUserId = () => JSON.parse(localStorage.getItem('userId'));
-
-  const authData = useMemo(() => ({
-    loggedIn, logIn, logOut, getUsername, getUserId,
-  }));
-
-  return (
-    <AuthContext.Provider value={authData}>
-      {children}
-    </AuthContext.Provider>
-  );
-};
 
 const ChatRoute = () => {
   const auth = useContext(AuthContext);
@@ -147,35 +115,33 @@ const App = () => {
   });
 
   return (
-    <AuthProvider>
-      <Router>
-        <div className="h-100">
-          <div className="d-flex flex-column h-100">
-            <Navbar bg="light" expand="lg" className="shadow-sm">
-              <Container>
-                <Navbar.Brand as={Link} to="/">{t('appHeader')}</Navbar.Brand>
-                <LogOutButton />
-              </Container>
-            </Navbar>
-            <Switch>
-              <Route exact path="/">
-                <ChatRoute />
-              </Route>
-              <Route path="/login">
-                <LoginRoute />
-              </Route>
-              <Route path="/signup">
-                <SignUpRoute />
-              </Route>
-              <Route path="*">
-                <NoMatch />
-              </Route>
-            </Switch>
-          </div>
+    <Router>
+      <div className="h-100">
+        <div className="d-flex flex-column h-100">
+          <Navbar bg="light" expand="lg" className="shadow-sm">
+            <Container>
+              <Navbar.Brand as={Link} to="/">{t('appHeader')}</Navbar.Brand>
+              <LogOutButton />
+            </Container>
+          </Navbar>
+          <Switch>
+            <Route exact path="/">
+              <ChatRoute />
+            </Route>
+            <Route path="/login">
+              <LoginRoute />
+            </Route>
+            <Route path="/signup">
+              <SignUpRoute />
+            </Route>
+            <Route path="*">
+              <NoMatch />
+            </Route>
+          </Switch>
         </div>
-        <ToastContainer />
-      </Router>
-    </AuthProvider>
+      </div>
+      <ToastContainer />
+    </Router>
   );
 };
 export default App;
