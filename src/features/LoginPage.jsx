@@ -64,7 +64,7 @@ const LoginPage = () => {
                     required
                     ref={inputRef}
                   />
-                  <Form.Label htmlFor="username">{t('tooltip.username')}</Form.Label>
+                  <Form.Label htmlFor="username">{t('tooltip.nickname')}</Form.Label>
                 </Form.Group>
                 <Form.Group className="form-floating mb-3">
                   <Form.Control

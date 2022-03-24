@@ -1,7 +1,8 @@
 export default {
   translation: {
-    appHeader: 'Hexlet-Chat',
+    appHeader: 'Hexlet Chat',
     tooltip: {
+      nickname: 'Username',
       username: 'Username',
       password: 'Password',
       confirmPassword: 'Confirm Password',

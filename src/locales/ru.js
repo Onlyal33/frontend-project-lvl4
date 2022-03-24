@@ -1,10 +1,10 @@
 export default {
   translation: {
-    appHeader: 'Хекслет Чат',
     tooltip: {
+      nickname: 'Ваш ник',
       username: 'Имя пользователя',
       password: 'Пароль',
-      confirmPassword: 'Повторите пароль',
+      confirmPassword: 'Подтвердите пароль',
       message: 'Введите сообщение...',
     },
     login: {
@@ -25,7 +25,7 @@ export default {
     },
     messages: {
       errors: {
-        noNetwork: 'Нет сети',
+        noNetwork: 'Ошибка соединения',
       },
     },
     main: {
@@ -56,7 +56,7 @@ export default {
       removeText1: 'Вы действительно хотите удалить канал ',
       removeText2: '?',
       errors: {
-        noNetwork: 'Нет сети',
+        noNetwork: 'Ошибка соединения',
       },
     },
     toast: {
@@ -72,7 +72,7 @@ export default {
       exist: 'Такой канал уже существует',
       length: {
         login: 'От 3 до 20 символов',
-        password: 'От 6 символов',
+        password: 'Не менее 6 символов',
       },
     },
   },
