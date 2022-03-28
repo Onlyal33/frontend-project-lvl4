@@ -3,7 +3,9 @@ import React, {
   useEffect, useRef, useState, useContext,
 } from 'react';
 import { useFormik } from 'formik';
-import { Button, Form, Card } from 'react-bootstrap';
+import {
+  Button, Form, Card, Image,
+} from 'react-bootstrap';
 import { useLocation, useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import routes from '../common/routes.js';
@@ -60,8 +62,11 @@ const SignUpPage = () => {
       <div className="row justify-content-center align-content-center h-100">
         <div className="col-12 col-md-8 col-xxl-6">
           <Card className="shadow-sm">
-            <Card.Body className="d-flex flex-column flex-md-row justify-content-around align-items-center p-5">
-              <Form onSubmit={formik.handleSubmit} className="p-3">
+            <Card.Body className="row p-5">
+              <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
+                <Image src="https://i.ibb.co/x1C4Mnm/register.jpg" roundedCircle alt={t('signup.header')} />
+              </div>
+              <Form onSubmit={formik.handleSubmit} className="col-12 col-md-6 mt-3 mt-mb-0">
                 <Card.Title className="text-center mb-4" as="h1">{t('signup.header')}</Card.Title>
                 <Form.Group className="form-floating mb-3">
                   <Form.Control
