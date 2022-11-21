@@ -28,7 +28,7 @@
     "classnames": "^2.2.6",
     "core-js": "^3.19.1",
     "debug": "^4.3.1",
-    "fastify": "^3.22.1",
+    "fastify": "^3.29.4",
     "fastify-cli": "^2.15.0",
     "fastify-formbody": "^5.1.0",
     "fastify-jwt": "^2.5.0",
