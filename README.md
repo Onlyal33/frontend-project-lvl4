@@ -8,7 +8,7 @@
 You can create multiple channels, send and receive messages in real time. Registration required :smile:
 
 You can find project's site here:
-https://slack-frontend-lvl4.herokuapp.com/
+https://frontend-project-lvl4-production-6184.up.railway.app/
 
 ### Install
 
