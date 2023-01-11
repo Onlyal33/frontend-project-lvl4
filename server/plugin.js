@@ -5,7 +5,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import pointOfView from 'point-of-view';
 import fastifySocketIo from 'fastify-socket.io';
-import fastifyStatic from 'fastify-static';
+import fastifyStatic from '@fastify/static';
 import fastifyJWT from 'fastify-jwt';
 import HttpErrors from 'http-errors';
 

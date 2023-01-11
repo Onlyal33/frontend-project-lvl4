@@ -1,7 +1,7 @@
 import 'core-js/stable/index.js';
 import 'regenerator-runtime/runtime.js';
 import { io } from 'socket.io-client';
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import 'react-toastify/dist/ReactToastify.css';
 
 import '../assets/application.scss';
@@ -18,11 +18,8 @@ const run = async () => {
   const Vdom = await init(socket);
 
   const container = document.querySelector('#chat');
-
-  render(
-    Vdom,
-    container,
-  );
+  const root = createRoot(container);
+  root.render(Vdom);
 };
 
 run();
