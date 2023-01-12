@@ -11,13 +11,13 @@ import { setInitialState } from './channels/channelsSlice.js';
 import routes from '../common/routes.js';
 
 const ChatPage = () => {
-  const auth = useContext(AuthContext);
+  const { getUserId } = useContext(AuthContext);
   const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchInitialData = async () => {
       try {
-        const headers = { Authorization: `Bearer ${auth.getUserId()}` };
+        const headers = { Authorization: `Bearer ${getUserId()}` };
         const { data } = await axios.get(routes.dataPath(), { headers });
         dispatch(setInitialState(data));
       } catch (e) {

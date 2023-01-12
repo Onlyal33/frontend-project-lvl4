@@ -13,7 +13,7 @@ import AuthContext from '../contexts/AuthContext.js';
 import getValidationSchema from '../common/validation.js';
 
 const SignUpPage = () => {
-  const auth = useContext(AuthContext);
+  const { logIn } = useContext(AuthContext);
   const [authFailed, setAuthFailed] = useState(false);
   const inputRef = useRef(null);
   const location = useLocation();
@@ -42,7 +42,7 @@ const SignUpPage = () => {
 
       try {
         const res = await axios.post(routes.signupPath(), values);
-        auth.logIn(res.data);
+        logIn(res.data);
         const { from } = location.state || { from: { pathname: '/' } };
         history.replace(from);
       } catch (err) {

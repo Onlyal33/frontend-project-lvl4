@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 import React, { useRef, useEffect, useContext } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import { ListGroup } from 'react-bootstrap';

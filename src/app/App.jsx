@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 import React, { useContext } from 'react';
 import {
   BrowserRouter as Router,
@@ -21,11 +22,11 @@ import { addMessage } from '../features/messages/messagesSlice.js';
 import { addChannel, removeChannel, renameChannel } from '../features/channels/channelsSlice.js';
 
 const ChatRoute = () => {
-  const auth = useContext(AuthContext);
+  const { loggedIn } = useContext(AuthContext);
 
   return (
     <Route
-      render={({ location }) => (auth.loggedIn ? (
+      render={({ location }) => (loggedIn ? (
         <ChatPage />
       ) : (
         <Redirect
@@ -40,11 +41,11 @@ const ChatRoute = () => {
 };
 
 const LoginRoute = () => {
-  const auth = useContext(AuthContext);
+  const { loggedIn } = useContext(AuthContext);
 
   return (
     <Route
-      render={({ location }) => (auth.loggedIn ? (
+      render={({ location }) => (loggedIn ? (
         <Redirect
           to={{
             pathname: '/',
@@ -59,11 +60,11 @@ const LoginRoute = () => {
 };
 
 const SignUpRoute = () => {
-  const auth = useContext(AuthContext);
+  const { loggedIn } = useContext(AuthContext);
 
   return (
     <Route
-      render={({ location }) => (auth.loggedIn ? (
+      render={({ location }) => (loggedIn ? (
         <Redirect
           to={{
             pathname: '/',

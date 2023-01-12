@@ -12,7 +12,7 @@ import routes from '../common/routes.js';
 import AuthContext from '../contexts/AuthContext.js';
 
 const LoginPage = () => {
-  const auth = useContext(AuthContext);
+  const { logIn } = useContext(AuthContext);
   const [authFailed, setAuthFailed] = useState(false);
   const inputRef = useRef(null);
   const location = useLocation();
@@ -32,7 +32,7 @@ const LoginPage = () => {
 
       try {
         const res = await axios.post(routes.loginPath(), values);
-        auth.logIn(res.data);
+        logIn(res.data);
         const { from } = location.state || { from: { pathname: '/' } };
         history.replace(from);
       } catch (err) {
