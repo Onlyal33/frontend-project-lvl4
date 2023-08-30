@@ -8,7 +8,7 @@
 You can create multiple channels, send and receive messages in real time. Registration required :smile:
 
 You can find project's site here:
-https://frontend-project-lvl4-production-6184.up.railway.app/
+https://chat-front-lvl4.onrender.com
 
 ### Install
 
