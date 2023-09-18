@@ -5,7 +5,7 @@
   "main": "src/app/initialize.jsx",
   "type": "module",
   "scripts": {
-    "test": "jest",
+    "test": "jest --passWithNoTests",
     "prebuild": "rm -rf dist",
     "build": "webpack --config webpack.prod.cjs",
     "start": "fastify start server/plugin.js -l info -P -a 0.0.0.0",

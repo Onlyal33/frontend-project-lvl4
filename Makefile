@@ -25,6 +25,6 @@ deploy:
 	git push heroku
 
 test:
-	npm test -s --passWithNoTests
+	npm test -s
 
 .PHONY: test
