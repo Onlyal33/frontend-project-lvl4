@@ -1,23 +1,20 @@
-import React, {
-  useState, useRef, useEffect,
-} from 'react';
-import { Form, Modal, Button } from 'react-bootstrap';
+import { useState, useRef, useEffect } from 'react';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import Modal from 'react-bootstrap/Modal';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { useSocket } from '../../contexts/SocketContext.jsx';
 
-const generateOnSubmit = ({
-  setError, setIsSubmitting, onHide, item, socket, t,
-}) => (event, actions) => {
-  event.preventDefault();
-  setError(null);
-  setIsSubmitting(true);
+const generateOnSubmit =
+  ({ setError, setIsSubmitting, onHide, item, socket, t }) =>
+  (event, actions) => {
+    event.preventDefault();
+    setError(null);
+    setIsSubmitting(true);
 
-  if (socket.connected) {
-    socket.emit(
-      'removeChannel',
-      item,
-      (res) => {
+    if (socket.connected) {
+      socket.emit('removeChannel', item, (res) => {
         if (res.status === 'ok') {
           toast.success(t('toast.channel.remove'));
           onHide();
@@ -25,13 +22,12 @@ const generateOnSubmit = ({
           actions.setSubmitting(false);
           actions.setFieldError('message', res.status);
         }
-      },
-    );
-  } else {
-    actions.setSubmitting(false);
-    actions.setFieldError('message', t('modal.errors.noNetwork'));
-  }
-/*
+      });
+    } else {
+      actions.setSubmitting(false);
+      actions.setFieldError('message', t('modal.errors.noNetwork'));
+    }
+    /*
   const path = routes.channelPath(item.id);
 
   try {
@@ -41,7 +37,7 @@ const generateOnSubmit = ({
     setIsSubmitting(false);
     setError(e.message);
   } */
-};
+  };
 
 const Remove = ({ onHide, modalInfo: { item } }) => {
   const { name } = item;
@@ -69,15 +65,20 @@ const Remove = ({ onHide, modalInfo: { item } }) => {
           {name}
           {t('modal.removeText2')}
         </div>
-        <Form.Text className="text-danger">
-          {error}
-        </Form.Text>
+        <Form.Text className="text-danger">{error}</Form.Text>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={onHide}>{t('modal.button.cancel')}</Button>
+        <Button variant="secondary" onClick={onHide}>
+          {t('modal.button.cancel')}
+        </Button>
         <Form
           onSubmit={generateOnSubmit({
-            setError, setIsSubmitting, onHide, item, socket, t,
+            setError,
+            setIsSubmitting,
+            onHide,
+            item,
+            socket,
+            t,
           })}
         >
           <Form.Control

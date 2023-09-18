@@ -1,22 +1,20 @@
-import React, { useRef, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import {
-  Modal, Button, FormControl, InputGroup,
-} from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
+import FormControl from 'react-bootstrap/FormControl';
+import InputGroup from 'react-bootstrap/InputGroup';
+import Modal from 'react-bootstrap/Modal';
 import { Formik, Form } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import getValidationSchema from '../../common/validation.js';
 import { useSocket } from '../../contexts/SocketContext.jsx';
 
-const generateOnSubmit = ({
-  onHide, item, socket, t,
-}) => ({ name }, actions) => {
-  if (socket.connected) {
-    socket.emit(
-      'renameChannel',
-      { ...item, name: name.trim() },
-      (res) => {
+const generateOnSubmit =
+  ({ onHide, item, socket, t }) =>
+  ({ name }, actions) => {
+    if (socket.connected) {
+      socket.emit('renameChannel', { ...item, name: name.trim() }, (res) => {
         if (res.status === 'ok') {
           toast.success(t('toast.channel.rename'));
           onHide();
@@ -24,17 +22,17 @@ const generateOnSubmit = ({
           actions.setSubmitting(false);
           actions.setFieldError('message', res.status);
         }
-      },
-    );
-  } else {
-    actions.setSubmitting(false);
-    actions.setFieldError('message', t('modal.errors.noNetwork'));
-  }
-};
+      });
+    } else {
+      actions.setSubmitting(false);
+      actions.setFieldError('message', t('modal.errors.noNetwork'));
+    }
+  };
 
-const getFiletredChannelNames = (idToRename) => (state) => state.channelsInfo.channels
-  .filter(({ id }) => id !== idToRename)
-  .map(({ name }) => name);
+const getFiletredChannelNames = (idToRename) => (state) =>
+  state.channelsInfo.channels
+    .filter(({ id }) => id !== idToRename)
+    .map(({ name }) => name);
 
 const Rename = ({ onHide, modalInfo: { item } }) => {
   const modalRef = useRef();
@@ -58,15 +56,13 @@ const Rename = ({ onHide, modalInfo: { item } }) => {
         }}
         validationSchema={getValidationSchema('channel')(filteredChannelNames)}
         onSubmit={generateOnSubmit({
-          onHide, item, socket, t,
+          onHide,
+          item,
+          socket,
+          t,
         })}
       >
-        {({
-          handleChange,
-          values,
-          isSubmitting,
-          errors,
-        }) => (
+        {({ handleChange, values, isSubmitting, errors }) => (
           <Form>
             <Modal.Body as={InputGroup}>
               <FormControl
@@ -86,8 +82,12 @@ const Rename = ({ onHide, modalInfo: { item } }) => {
               </FormControl.Feedback>
             </Modal.Body>
             <Modal.Footer>
-              <Button variant="secondary" onClick={onHide}>{t('modal.button.cancel')}</Button>
-              <Button variant="primary" type="submit" disabled={isSubmitting}>{t('modal.button.submit')}</Button>
+              <Button variant="secondary" onClick={onHide}>
+                {t('modal.button.cancel')}
+              </Button>
+              <Button variant="primary" type="submit" disabled={isSubmitting}>
+                {t('modal.button.submit')}
+              </Button>
             </Modal.Footer>
           </Form>
         )}

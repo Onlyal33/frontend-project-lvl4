@@ -1,11 +1,10 @@
 import axios from 'axios';
-import React, {
-  useEffect, useRef, useState,
-} from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useFormik } from 'formik';
-import {
-  Button, Form, Card, Image,
-} from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import Card from 'react-bootstrap/Card';
+import Image from 'react-bootstrap/Image';
 import { useLocation, useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import routes from '../common/routes.js';
@@ -64,10 +63,19 @@ const SignUpPage = () => {
           <Card className="shadow-sm">
             <Card.Body className="row p-5">
               <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
-                <Image src="https://i.ibb.co/x1C4Mnm/register.jpg" roundedCircle alt={t('signup.header')} />
+                <Image
+                  src="https://i.ibb.co/x1C4Mnm/register.jpg"
+                  roundedCircle
+                  alt={t('signup.header')}
+                />
               </div>
-              <Form onSubmit={formik.handleSubmit} className="col-12 col-md-6 mt-3 mt-mb-0">
-                <Card.Title className="text-center mb-4" as="h1">{t('signup.header')}</Card.Title>
+              <Form
+                onSubmit={formik.handleSubmit}
+                className="col-12 col-md-6 mt-3 mt-mb-0"
+              >
+                <Card.Title className="text-center mb-4" as="h1">
+                  {t('signup.header')}
+                </Card.Title>
                 <Form.Group className="form-floating mb-3">
                   <Form.Control
                     onChange={formik.handleChange}
@@ -77,13 +85,18 @@ const SignUpPage = () => {
                     name="username"
                     id="username"
                     autoComplete="username"
-                    isInvalid={(!!formik.errors.username && formik.touched.username) || authFailed}
+                    isInvalid={
+                      (!!formik.errors.username && formik.touched.username) ||
+                      authFailed
+                    }
                     ref={inputRef}
                   />
                   <Form.Control.Feedback type="invalid">
                     {formik.errors.username}
                   </Form.Control.Feedback>
-                  <Form.Label htmlFor="username">{t('tooltip.username')}</Form.Label>
+                  <Form.Label htmlFor="username">
+                    {t('tooltip.username')}
+                  </Form.Label>
                 </Form.Group>
                 <Form.Group className="form-floating mb-3">
                   <Form.Control
@@ -95,12 +108,17 @@ const SignUpPage = () => {
                     name="password"
                     id="password"
                     autoComplete="current-password"
-                    isInvalid={(!!formik.errors.password && formik.touched.password) || authFailed}
+                    isInvalid={
+                      (!!formik.errors.password && formik.touched.password) ||
+                      authFailed
+                    }
                   />
                   <Form.Control.Feedback type="invalid">
                     {formik.errors.password}
                   </Form.Control.Feedback>
-                  <Form.Label htmlFor="password">{t('tooltip.password')}</Form.Label>
+                  <Form.Label htmlFor="password">
+                    {t('tooltip.password')}
+                  </Form.Label>
                 </Form.Group>
                 <Form.Group className="form-floating mb-3">
                   <Form.Control
@@ -112,16 +130,26 @@ const SignUpPage = () => {
                     name="passwordConfirmation"
                     id="passwordConfirmation"
                     autoComplete="current-password"
-                    isInvalid={(!!formik.errors.passwordConfirmation
-                      && formik.touched.passwordConfirmation)
-                      || authFailed}
+                    isInvalid={
+                      (!!formik.errors.passwordConfirmation &&
+                        formik.touched.passwordConfirmation) ||
+                      authFailed
+                    }
                   />
                   <Form.Control.Feedback type="invalid">
                     {formik.errors.passwordConfirmation}
                   </Form.Control.Feedback>
-                  <Form.Label htmlFor="passwordConfirmation">{t('tooltip.confirmPassword')}</Form.Label>
+                  <Form.Label htmlFor="passwordConfirmation">
+                    {t('tooltip.confirmPassword')}
+                  </Form.Label>
                 </Form.Group>
-                <Button type="submit" className="w-100" variant="outline-primary">{t('signup.button')}</Button>
+                <Button
+                  type="submit"
+                  className="w-100"
+                  variant="outline-primary"
+                >
+                  {t('signup.button')}
+                </Button>
               </Form>
             </Card.Body>
           </Card>

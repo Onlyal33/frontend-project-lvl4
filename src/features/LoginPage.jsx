@@ -1,11 +1,10 @@
 import axios from 'axios';
-import React, {
-  useEffect, useRef, useState,
-} from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useFormik } from 'formik';
-import {
-  Button, Form, Card, Image,
-} from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import Card from 'react-bootstrap/Card';
+import Image from 'react-bootstrap/Image';
 import { useLocation, useHistory, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import routes from '../common/routes.js';
@@ -53,10 +52,19 @@ const LoginPage = () => {
           <Card className="shadow-sm">
             <Card.Body className="row p-5">
               <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
-                <Image src="https://i.ibb.co/p2GcspM/login.jpg" roundedCircle alt={t('login.header')} />
+                <Image
+                  src="https://i.ibb.co/p2GcspM/login.jpg"
+                  roundedCircle
+                  alt={t('login.header')}
+                />
               </div>
-              <Form onSubmit={formik.handleSubmit} className="col-12 col-md-6 mt-3 mt-mb-0">
-                <Card.Title className="text-center mb-4" as="h1">{t('login.header')}</Card.Title>
+              <Form
+                onSubmit={formik.handleSubmit}
+                className="col-12 col-md-6 mt-3 mt-mb-0"
+              >
+                <Card.Title className="text-center mb-4" as="h1">
+                  {t('login.header')}
+                </Card.Title>
                 <Form.Group className="form-floating mb-3">
                   <Form.Control
                     onChange={formik.handleChange}
@@ -69,7 +77,9 @@ const LoginPage = () => {
                     required
                     ref={inputRef}
                   />
-                  <Form.Label htmlFor="username">{t('tooltip.nickname')}</Form.Label>
+                  <Form.Label htmlFor="username">
+                    {t('tooltip.nickname')}
+                  </Form.Label>
                 </Form.Group>
                 <Form.Group className="form-floating mb-3">
                   <Form.Control
@@ -83,10 +93,20 @@ const LoginPage = () => {
                     isInvalid={authFailed}
                     required
                   />
-                  <Form.Control.Feedback type="invalid">{t('login.errors.incorrect')}</Form.Control.Feedback>
-                  <Form.Label htmlFor="password">{t('tooltip.password')}</Form.Label>
+                  <Form.Control.Feedback type="invalid">
+                    {t('login.errors.incorrect')}
+                  </Form.Control.Feedback>
+                  <Form.Label htmlFor="password">
+                    {t('tooltip.password')}
+                  </Form.Label>
                 </Form.Group>
-                <Button type="submit" className="w-100" variant="outline-primary">{t('login.button')}</Button>
+                <Button
+                  type="submit"
+                  className="w-100"
+                  variant="outline-primary"
+                >
+                  {t('login.button')}
+                </Button>
               </Form>
             </Card.Body>
             <Card.Footer className="text-muted text-center p-4">

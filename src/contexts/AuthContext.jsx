@@ -1,10 +1,8 @@
-import {
-  createContext, useContext, useMemo, useState,
-} from 'react';
+import { createContext, useContext, useMemo, useState } from 'react';
 
 const AuthContext = createContext();
 
-export const useAuth = useContext(AuthContext);
+export const useAuth = () => useContext(AuthContext);
 
 const AuthProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(!!localStorage.getItem('userId'));
@@ -36,7 +34,6 @@ const AuthProvider = ({ children }) => {
   }));
 
   return (
-    // eslint-disable-next-line react/react-in-jsx-scope
     <AuthContext.Provider value={authData}>{children}</AuthContext.Provider>
   );
 };

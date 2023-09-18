@@ -1,5 +1,3 @@
-/* eslint-disable react/destructuring-assignment */
-import React from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -10,7 +8,8 @@ import {
 } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import { Navbar, Container } from 'react-bootstrap';
+import Navbar from 'react-bootstrap/Navbar';
+import Container from 'react-bootstrap/Container';
 import { ToastContainer } from 'react-toastify';
 import LoginPage from '../features/LoginPage.jsx';
 import SignUpPage from '../features/SignUpPage.jsx';
@@ -19,23 +18,29 @@ import LogOutButton from '../features/LogOutButton.jsx';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import { useSocket } from '../contexts/SocketContext.jsx';
 import { addMessage } from '../features/messages/messagesSlice.js';
-import { addChannel, removeChannel, renameChannel } from '../features/channels/channelsSlice.js';
+import {
+  addChannel,
+  removeChannel,
+  renameChannel,
+} from '../features/channels/channelsSlice.js';
 
 const ChatRoute = () => {
   const { loggedIn } = useAuth();
 
   return (
     <Route
-      render={({ location }) => (loggedIn ? (
-        <ChatPage />
-      ) : (
-        <Redirect
-          to={{
-            pathname: '/login',
-            state: { from: location },
-          }}
-        />
-      ))}
+      render={({ location }) =>
+        loggedIn ? (
+          <ChatPage />
+        ) : (
+          <Redirect
+            to={{
+              pathname: '/login',
+              state: { from: location },
+            }}
+          />
+        )
+      }
     />
   );
 };
@@ -45,16 +50,18 @@ const LoginRoute = () => {
 
   return (
     <Route
-      render={({ location }) => (loggedIn ? (
-        <Redirect
-          to={{
-            pathname: '/',
-            state: { from: location },
-          }}
-        />
-      ) : (
-        <LoginPage />
-      ))}
+      render={({ location }) =>
+        loggedIn ? (
+          <Redirect
+            to={{
+              pathname: '/',
+              state: { from: location },
+            }}
+          />
+        ) : (
+          <LoginPage />
+        )
+      }
     />
   );
 };
@@ -64,16 +71,18 @@ const SignUpRoute = () => {
 
   return (
     <Route
-      render={({ location }) => (loggedIn ? (
-        <Redirect
-          to={{
-            pathname: '/',
-            state: { from: location },
-          }}
-        />
-      ) : (
-        <SignUpPage />
-      ))}
+      render={({ location }) =>
+        loggedIn ? (
+          <Redirect
+            to={{
+              pathname: '/',
+              state: { from: location },
+            }}
+          />
+        ) : (
+          <SignUpPage />
+        )
+      }
     />
   );
 };
@@ -84,11 +93,7 @@ const NoMatch = () => {
   return (
     <div>
       <h3>
-        404
-        {' '}
-        <code>{location.pathname}</code>
-        {' '}
-        not found
+        404 <code>{location.pathname}</code> not found
       </h3>
     </div>
   );
@@ -121,7 +126,9 @@ const App = () => {
         <div className="d-flex flex-column h-100">
           <Navbar bg="light" expand="lg" className="shadow-sm">
             <Container>
-              <Navbar.Brand as={Link} to="/">{t('appHeader')}</Navbar.Brand>
+              <Navbar.Brand as={Link} to="/">
+                {t('appHeader')}
+              </Navbar.Brand>
               <LogOutButton />
             </Container>
           </Navbar>

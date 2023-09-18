@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
 
 const modalsSlice = createSlice({
@@ -18,8 +17,6 @@ const modalsSlice = createSlice({
   },
 });
 
-export const {
-  openModal, closeModal,
-} = modalsSlice.actions;
+export const { openModal, closeModal } = modalsSlice.actions;
 
 export default modalsSlice.reducer;

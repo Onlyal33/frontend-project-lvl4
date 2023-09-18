@@ -1,22 +1,19 @@
-/* eslint-disable react/destructuring-assignment */
-import React, { useRef, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
-import { ListGroup } from 'react-bootstrap';
+import ListGroup from 'react-bootstrap/ListGroup';
 import { useProfanityFilter } from '../../contexts/ProfanityFilterContext.jsx';
 
 const renderMessage = ({ id, username, body }) => (
   <span key={id} className="text-wrap text-break">
-    <b>{username}</b>
-    :
-    {' '}
-    {body}
+    <b>{username}</b>: {body}
   </span>
 );
 
 const selectMessagesByChannelId = (state) => {
   const { currentChannelId } = state.channelsInfo;
-  return state.messages
-    .filter(({ channelId }) => channelId === currentChannelId);
+  return state.messages.filter(
+    ({ channelId }) => channelId === currentChannelId,
+  );
 };
 
 const Messages = () => {
@@ -37,7 +34,10 @@ const Messages = () => {
     <>
       <ListGroup>
         {filteredMessages
-          .map((message) => ({ ...message, body: filterProfanity.clean(message.body) }))
+          .map((message) => ({
+            ...message,
+            body: filterProfanity.clean(message.body),
+          }))
           .map(renderMessage)}
       </ListGroup>
       <div ref={bottomRef} />

@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { Container } from 'react-bootstrap';
+import Container from 'react-bootstrap/Container';
 import Channels from './channels/Channels.jsx';
 import MessagesHeader from './messages/MessagesHeader.jsx';
 import Messages from './messages/Messages.jsx';
