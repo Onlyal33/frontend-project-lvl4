@@ -1,5 +1,3 @@
-import 'core-js/stable/index.js';
-import 'regenerator-runtime/runtime.js';
 import { io } from 'socket.io-client';
 import { createRoot } from 'react-dom/client';
 import 'react-toastify/dist/ReactToastify.css';

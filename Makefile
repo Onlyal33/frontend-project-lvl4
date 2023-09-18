@@ -7,7 +7,7 @@ start-backend:
 	npm start --watch --verbose-watch
 
 start-frontend:
-	npx webpack serve
+	npx webpack serve --config webpack.dev.cjs
 
 install-deps:
 	npm ci
