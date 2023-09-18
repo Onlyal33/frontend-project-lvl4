@@ -14,12 +14,15 @@ https://chat-front-lvl4.onrender.com
 ### Install
 
 ```sh
-$ make install
+$ npm install
 ```
 
-## Run
+### Run Dev Server
 
 ```sh
-$ make start
-# open http://localhost:5000
+$ npm run dev
 ```
+
+### Open in Browser
+
+http://localhost:3000

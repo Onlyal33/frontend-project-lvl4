@@ -1,5 +1,3 @@
-// @ts-check
-
 import get from 'lodash/get.js';
 import noop from 'lodash/noop.js';
 import omit from 'lodash/omit.js';

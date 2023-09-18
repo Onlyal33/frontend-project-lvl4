@@ -29,6 +29,12 @@ module.exports = {
         'react/prop-types': 0,
       },
     },
+    {
+      files: ['*.cjs'],
+      rules: {
+        '@typescript-eslint/no-var-requires': 0,
+      },
+    },
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
