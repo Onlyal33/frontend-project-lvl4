@@ -1,4 +1,5 @@
 # Chat (Slack)
+
 (Very) simplified analogue of slack chat
 
 [![Github Actions Status](https://github.com/Onlyal33/frontend-project-lvl4/workflows/Node%20CI/badge.svg)](https://github.com/Onlyal33/frontend-project-lvl4/actions)

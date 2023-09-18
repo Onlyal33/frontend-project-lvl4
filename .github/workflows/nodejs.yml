@@ -30,7 +30,6 @@ jobs:
       - name: Run test
         run: make test
 
-
   deploy:
     needs: build
     runs-on: ubuntu-latest
