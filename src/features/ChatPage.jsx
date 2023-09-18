@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { Container } from 'react-bootstrap';
@@ -6,12 +6,12 @@ import Channels from './channels/Channels.jsx';
 import MessagesHeader from './messages/MessagesHeader.jsx';
 import Messages from './messages/Messages.jsx';
 import MessageForm from './messages/MessageForm.jsx';
-import AuthContext from '../contexts/AuthContext.js';
+import { useAuth } from '../contexts/AuthContext.jsx';
 import { setInitialState } from './channels/channelsSlice.js';
 import routes from '../common/routes.js';
 
 const ChatPage = () => {
-  const { getUserId } = useContext(AuthContext);
+  const { getUserId } = useAuth();
   const dispatch = useDispatch();
 
   useEffect(() => {

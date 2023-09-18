@@ -1,10 +1,10 @@
 import React, {
-  useState, useRef, useEffect, useContext,
+  useState, useRef, useEffect,
 } from 'react';
 import { Form, Modal, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import SocketContext from '../../contexts/SocketContext.js';
+import { useSocket } from '../../contexts/SocketContext.jsx';
 
 const generateOnSubmit = ({
   setError, setIsSubmitting, onHide, item, socket, t,
@@ -51,7 +51,7 @@ const Remove = ({ onHide, modalInfo: { item } }) => {
   const [error, setError] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const socket = useContext(SocketContext);
+  const socket = useSocket();
   const { t } = useTranslation();
 
   useEffect(() => {

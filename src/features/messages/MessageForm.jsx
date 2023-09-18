@@ -1,14 +1,14 @@
 /* eslint-disable react/destructuring-assignment */
-import React, { useContext, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { Formik, Form } from 'formik';
 import { useTranslation } from 'react-i18next';
 import {
   Button, FormControl, InputGroup,
 } from 'react-bootstrap';
-import AuthContext from '../../contexts/AuthContext.js';
-import SocketContext from '../../contexts/SocketContext.js';
+import { useSocket } from '../../contexts/SocketContext.jsx';
 import getValidationSchema from '../../common/validation.js';
+import { useAuth } from '../../contexts/AuthContext.jsx';
 
 const MessageForm = () => {
   const currentChannelId = useSelector((state) => state.channelsInfo.currentChannelId);
@@ -23,8 +23,8 @@ const MessageForm = () => {
     }
   }, [currentChannelId, isModalOpen]);
 
-  const username = useContext(AuthContext).getUsername();
-  const socket = useContext(SocketContext);
+  const username = useAuth().getUsername();
+  const socket = useSocket();
   const handleSubmit = ({ message }, actions) => {
     if (socket.connected) {
       socket.emit(

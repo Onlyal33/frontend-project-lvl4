@@ -1,5 +1,5 @@
 import { Form, Formik } from 'formik';
-import React, { useEffect, useRef, useContext } from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
   Button, FormControl, InputGroup, Modal,
 } from 'react-bootstrap';
@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import getValidationSchema from '../../common/validation.js';
 import { changeCurrentChannel } from '../channels/channelsSlice.js';
-import SocketContext from '../../contexts/SocketContext.js';
+import { useSocket } from '../../contexts/SocketContext.jsx';
 
 const generateOnSubmit = ({
   onHide, dispatch, socket, t,
@@ -41,7 +41,7 @@ const getChannelNames = (state) => state.channelsInfo.channels.map(({ name }) =>
 const Add = ({ onHide }) => {
   const modalRef = useRef();
   const channelNames = useSelector(getChannelNames);
-  const socket = useContext(SocketContext);
+  const socket = useSocket();
   const { t } = useTranslation();
 
   useEffect(() => {

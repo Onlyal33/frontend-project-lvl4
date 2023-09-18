@@ -1,5 +1,5 @@
 /* eslint-disable react/destructuring-assignment */
-import React, { useContext } from 'react';
+import React from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -16,13 +16,13 @@ import LoginPage from '../features/LoginPage.jsx';
 import SignUpPage from '../features/SignUpPage.jsx';
 import ChatPage from '../features/ChatPage.jsx';
 import LogOutButton from '../features/LogOutButton.jsx';
-import AuthContext from '../contexts/AuthContext.js';
-import SocketContext from '../contexts/SocketContext.js';
+import { useAuth } from '../contexts/AuthContext.jsx';
+import { useSocket } from '../contexts/SocketContext.jsx';
 import { addMessage } from '../features/messages/messagesSlice.js';
 import { addChannel, removeChannel, renameChannel } from '../features/channels/channelsSlice.js';
 
 const ChatRoute = () => {
-  const { loggedIn } = useContext(AuthContext);
+  const { loggedIn } = useAuth();
 
   return (
     <Route
@@ -41,7 +41,7 @@ const ChatRoute = () => {
 };
 
 const LoginRoute = () => {
-  const { loggedIn } = useContext(AuthContext);
+  const { loggedIn } = useAuth();
 
   return (
     <Route
@@ -60,7 +60,7 @@ const LoginRoute = () => {
 };
 
 const SignUpRoute = () => {
-  const { loggedIn } = useContext(AuthContext);
+  const { loggedIn } = useAuth();
 
   return (
     <Route
@@ -95,7 +95,7 @@ const NoMatch = () => {
 };
 
 const App = () => {
-  const socket = useContext(SocketContext);
+  const socket = useSocket();
   const dispatch = useDispatch();
   const { t } = useTranslation();
 

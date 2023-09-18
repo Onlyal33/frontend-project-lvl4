@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, {
-  useEffect, useRef, useState, useContext,
+  useEffect, useRef, useState,
 } from 'react';
 import { useFormik } from 'formik';
 import {
@@ -9,11 +9,11 @@ import {
 import { useLocation, useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import routes from '../common/routes.js';
-import AuthContext from '../contexts/AuthContext.js';
+import { useAuth } from '../contexts/AuthContext.jsx';
 import getValidationSchema from '../common/validation.js';
 
 const SignUpPage = () => {
-  const { logIn } = useContext(AuthContext);
+  const { logIn } = useAuth();
   const [authFailed, setAuthFailed] = useState(false);
   const inputRef = useRef(null);
   const location = useLocation();

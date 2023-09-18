@@ -1,10 +1,10 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from 'react-bootstrap';
-import AuthContext from '../contexts/AuthContext.js';
+import { useAuth } from '../contexts/AuthContext.jsx';
 
 const LogOutButton = () => {
-  const { loggedIn, logOut } = useContext(AuthContext);
+  const { loggedIn, logOut } = useAuth();
   const { t } = useTranslation();
   return loggedIn ? (<Button onClick={logOut}>{t('main.button.logout')}</Button>) : null;
 };

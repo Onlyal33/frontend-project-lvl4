@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useContext } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import {
   Modal, Button, FormControl, InputGroup,
@@ -7,7 +7,7 @@ import { Formik, Form } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import getValidationSchema from '../../common/validation.js';
-import SocketContext from '../../contexts/SocketContext.js';
+import { useSocket } from '../../contexts/SocketContext.jsx';
 
 const generateOnSubmit = ({
   onHide, item, socket, t,
@@ -38,7 +38,7 @@ const getFiletredChannelNames = (idToRename) => (state) => state.channelsInfo.ch
 
 const Rename = ({ onHide, modalInfo: { item } }) => {
   const modalRef = useRef();
-  const socket = useContext(SocketContext);
+  const socket = useSocket();
   const { t } = useTranslation();
 
   useEffect(() => {
