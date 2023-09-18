@@ -33,10 +33,7 @@ module.exports = {
         "@typescript-eslint",
         "react"
     ],
-    "rules": {
-        "react/prop-types": 0,
-
-    },
+    "rules": {},
     "settings": {
         "react": {
             "version": "detect",
