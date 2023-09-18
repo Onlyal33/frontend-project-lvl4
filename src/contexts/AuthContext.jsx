@@ -25,13 +25,16 @@ const AuthProvider = ({ children }) => {
 
   const getUserId = () => JSON.parse(localStorage.getItem('userId'));
 
-  const authData = useMemo(() => ({
-    loggedIn,
-    logIn,
-    logOut,
-    getUsername,
-    getUserId,
-  }));
+  const authData = useMemo(
+    () => ({
+      loggedIn,
+      logIn,
+      logOut,
+      getUsername,
+      getUserId,
+    }),
+    [loggedIn],
+  );
 
   return (
     <AuthContext.Provider value={authData}>{children}</AuthContext.Provider>

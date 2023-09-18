@@ -5,10 +5,10 @@ import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import messagesReducer from '../features/messages/messagesSlice.js';
 import channelsReducer from '../features/channels/channelsSlice.js';
 import modalsReducer from '../features/modals/modalsSlice.js';
-import App from './App.jsx';
 import AuthProvider from '../contexts/AuthContext.jsx';
 import SocketProvider from '../contexts/SocketContext.jsx';
 import ProfanityFilterProvider from '../contexts/ProfanityFilterContext.jsx';
+import App from './App.jsx';
 import i18n from './i18n';
 
 const rollbarConfig = {

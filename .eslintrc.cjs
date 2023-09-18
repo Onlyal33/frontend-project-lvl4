@@ -7,10 +7,11 @@ module.exports = {
   extends: [
     'eslint:recommended',
     'plugin:import/recommended',
-    'plugin:@typescript-eslint/recommended',
     'plugin:react/recommended',
     'plugin:react-hooks/recommended',
     'plugin:jsx-a11y/recommended',
+    'plugin:react/jsx-runtime',
+    'plugin:@typescript-eslint/recommended',
   ],
   overrides: [
     {
@@ -22,14 +23,27 @@ module.exports = {
         sourceType: 'script',
       },
     },
+    {
+      files: ['*.jsx'],
+      rules: {
+        'react/prop-types': 0,
+      },
+    },
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
+    ecmaFeatures: {
+      jsx: true,
+    },
   },
-  plugins: ['@typescript-eslint', 'react'],
-  rules: {},
+  plugins: ['react', '@typescript-eslint'],
+  rules: {
+    'import/first': 1,
+    'import/order': 1,
+    'import/prefer-default-export': 1,
+  },
   settings: {
     react: {
       version: 'detect',

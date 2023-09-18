@@ -26,7 +26,7 @@ const SignUpPage = () => {
     if (authFailed) {
       setAuthFailed(false);
     }
-  }, [inputRef.current?.value]);
+  }, [inputRef.current?.value, authFailed]);
 
   const formik = useFormik({
     initialValues: {

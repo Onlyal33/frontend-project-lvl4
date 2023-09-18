@@ -4,9 +4,9 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import Nav from 'react-bootstrap/Nav';
 import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { changeCurrentChannel } from './channelsSlice.js';
 import getModal from '../modals';
 import { openModal, closeModal } from '../modals/modalsSlice.js';
+import { changeCurrentChannel } from './channelsSlice.js';
 
 const renderModal = ({ modalInfo, hideModal }) => {
   if (!modalInfo.type) {

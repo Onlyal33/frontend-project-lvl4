@@ -2,13 +2,13 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import Container from 'react-bootstrap/Container';
+import { useAuth } from '../contexts/AuthContext.jsx';
+import routes from '../common/routes.js';
 import Channels from './channels/Channels.jsx';
 import MessagesHeader from './messages/MessagesHeader.jsx';
 import Messages from './messages/Messages.jsx';
 import MessageForm from './messages/MessageForm.jsx';
-import { useAuth } from '../contexts/AuthContext.jsx';
 import { setInitialState } from './channels/channelsSlice.js';
-import routes from '../common/routes.js';
 
 const ChatPage = () => {
   const { getUserId } = useAuth();
@@ -26,7 +26,7 @@ const ChatPage = () => {
       }
     };
     fetchInitialData();
-  }, []);
+  }, [dispatch, getUserId]);
 
   return (
     <Container className="h-100 overflow-hidden rounded shadow my-4">

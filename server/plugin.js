@@ -1,8 +1,8 @@
 // @ts-check
 
-import Pug from 'pug';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import Pug from 'pug';
 import pointOfView from '@fastify/view';
 import fastifySocketIo from 'fastify-socket.io';
 import fastifyStatic from '@fastify/static';
@@ -23,7 +23,6 @@ const isDevelopment = !isProduction;
 const setUpViews = (app) => {
   const devHost = 'http://localhost:8090';
   const domain = isDevelopment ? devHost : '';
-  console.log('🚀 ~ file: plugin.js:26 ~ setUpViews ~ domain:', domain);
   app.register(pointOfView, {
     engine: {
       pug: Pug,
