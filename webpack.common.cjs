@@ -1,12 +1,13 @@
 // @ts-check
 
 const path = require('path');
+const autoprefixer = require('autoprefixer');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   resolve: {
-    extensions: ['.js', '.jsx'],
+    extensions: ['.js', '.jsx', '.ts', '.tsx'],
   },
   output: {
     path: path.join(__dirname, 'dist', 'public'),
@@ -24,13 +25,29 @@ module.exports = {
         use: 'babel-loader',
       },
       {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
+      {
         test: /\.(sa|sc|c)ss$/i,
         use: [
           { loader: MiniCssExtractPlugin.loader },
           { loader: 'css-loader' },
-          { loader: 'postcss-loader' },
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [autoprefixer],
+              },
+            },
+          },
           { loader: 'sass-loader' },
         ],
+      },
+      {
+        test: /\.(png|jp(e*)g|svg|gif|webp)$/,
+        type: 'asset/resource',
       },
     ],
   },

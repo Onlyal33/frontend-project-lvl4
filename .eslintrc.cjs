@@ -7,6 +7,7 @@ module.exports = {
   extends: [
     'eslint:recommended',
     'plugin:import/recommended',
+    'plugin:import/typescript',
     'plugin:react/recommended',
     'plugin:react-hooks/recommended',
     'plugin:jsx-a11y/recommended',
@@ -30,6 +31,12 @@ module.exports = {
       },
     },
     {
+      files: ['*.js','*.jsx'],
+      rules: {
+        'import/extensions': ['error', 'always']
+      },
+    },
+    {
       files: ['*.cjs'],
       rules: {
         '@typescript-eslint/no-var-requires': 0,
@@ -44,13 +51,23 @@ module.exports = {
       jsx: true,
     },
   },
-  plugins: ['react', '@typescript-eslint'],
+  plugins: ['react', '@typescript-eslint', 'import'],
   rules: {
     'import/first': 1,
     'import/order': 1,
     'import/prefer-default-export': 1,
+    'import/extensions': ['error', 'always', {
+      'js': 'never',
+      'jsx': 'never',
+      'ts': 'never',
+      'tsx': 'never'
+    }],
   },
   settings: {
+    'import/extensions': ['.js', '.jsx', '.ts', '.tsx'],
+    'import/resolver': {
+      typescript: {}
+    },
     react: {
       version: 'detect',
     },
