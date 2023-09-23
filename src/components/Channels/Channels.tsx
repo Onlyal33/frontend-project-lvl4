@@ -22,7 +22,12 @@ export default function Channels() {
           className="p-0 text-primary"
           onClick={() => showModal('add')}
         >
-          <img src={add} alt={t('main.button.add')}></img>
+          <img
+            src={add}
+            alt={t('main.button.add')}
+            width={20}
+            height={20}
+          ></img>
         </Button>
       </div>
       <Nav className="flex-column px-2" variant="pills" fill>
