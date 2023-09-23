@@ -5,7 +5,7 @@ import { fileURLToPath } from 'url';
 import Pug from 'pug';
 import pointOfView from '@fastify/view';
 import fastifySocketIo from 'fastify-socket.io';
-import fastifyStatic from '@fastify/static';
+import { fastifyStatic } from '@fastify/static';
 import fastifyJWT from '@fastify/jwt';
 import HttpErrors from 'http-errors';
 
@@ -42,7 +42,6 @@ const setUpStaticAssets = (app) => {
 };
 
 const setUpAuth = (app) => {
-  // TODO add socket auth
   app
     .register(fastifyJWT, {
       secret: 'supersecret',
