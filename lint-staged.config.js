@@ -1,4 +1,4 @@
-const eslintCommand = 'npx eslint ./src';
+const eslintCommand = 'eslint ./src';
 
 const formatCommand = 'prettier --write';
 

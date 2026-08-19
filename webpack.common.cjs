@@ -7,7 +7,7 @@ const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   resolve: {
-    extensions: ['.js', '.jsx', '.ts', '.tsx'],
+    extensions: ['.js', '.ts', '.tsx'],
   },
   output: {
     path: path.join(__dirname, 'dist', 'public'),
@@ -19,11 +19,6 @@ module.exports = {
   ],
   module: {
     rules: [
-      {
-        test: /\.jsx?$/,
-        exclude: /node_modules/,
-        use: 'babel-loader',
-      },
       {
         test: /\.tsx?$/,
         use: 'ts-loader',
@@ -42,7 +37,20 @@ module.exports = {
               },
             },
           },
-          { loader: 'sass-loader' },
+          {
+            loader: 'sass-loader',
+            options: {
+              sassOptions: {
+                // Bootstrap 5.3 still uses Sass APIs deprecated ahead of v6.
+                silenceDeprecations: [
+                  'color-functions',
+                  'global-builtin',
+                  'import',
+                  'if-function',
+                ],
+              },
+            },
+          },
         ],
       },
       {

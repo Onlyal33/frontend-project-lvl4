@@ -13,7 +13,7 @@ const useEmit = <T extends keyof ClientToServerEventData>(eventType: T) => {
   const f = async (
     value: ClientToServerEventData[T],
     actions: FormikActions,
-    ref: RefObject<HTMLInputElement | HTMLButtonElement>,
+    ref: RefObject<HTMLInputElement | HTMLButtonElement | null>,
   ) => {
     if (api) {
       let data;

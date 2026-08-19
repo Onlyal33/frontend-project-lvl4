@@ -4,10 +4,10 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import Pug from 'pug';
 import pointOfView from '@fastify/view';
-import fastifySocketIo from 'fastify-socket.io';
 import { fastifyStatic } from '@fastify/static';
 import fastifyJWT from '@fastify/jwt';
 import HttpErrors from 'http-errors';
+import { Server as SocketIOServer } from 'socket.io';
 
 import addRoutes from './routes.js';
 
@@ -55,11 +55,22 @@ const setUpAuth = (app) => {
     });
 };
 
+const setUpSocketIo = (app) => {
+  const io = new SocketIOServer(app.server);
+  app.decorate('io', io);
+  app.addHook('preClose', () => {
+    io.local.disconnectSockets(true);
+  });
+  app.addHook('onClose', async () => {
+    await io.close();
+  });
+};
+
 export default async (app, options) => {
   setUpAuth(app);
   setUpViews(app);
   setUpStaticAssets(app);
-  await app.register(fastifySocketIo);
+  setUpSocketIo(app);
   addRoutes(app, options?.state || {});
 
   return app;
