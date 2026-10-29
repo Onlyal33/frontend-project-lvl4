@@ -35,7 +35,7 @@
     "axios": "^1.19.0",
     "bootstrap": "^5.3.8",
     "debug": "^4.4.3",
-    "fastify": "^5.12.1",
+    "fastify": "^5.12.5",
     "fastify-cli": "^8.0.0",
     "formik": "^2.4.9",
     "http-errors": "^2.0.1",
